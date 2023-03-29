@@ -25,7 +25,30 @@ EN_serverError_t isValidAccount( ST_cardData_t *cardData,  ST_accountsDB_t *acco
 
 EN_serverError_t isBlockedAccount(ST_accountsDB_t *accountReference)
 {
-    /* ToDo*/
+    EN_serverError_t errorStatus = SERVER_OK;
+
+    if( accountReference != NULL )
+    {
+        if (accountReference == BLOCKED)
+        {
+            errorStatus = BLOCKED_ACCOUNT;
+        }
+        else if (accountReference == RUNNING)
+        {
+            errorStatus = SERVER_OK;
+        }
+        else 
+        {
+            /*do nothing*/
+        }
+    }
+    else 
+    {
+        errorStatus = ACCOUNT_NOT_FOUND;
+    }
+
+
+    return errorStatus;
 }
 
 
