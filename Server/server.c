@@ -29,11 +29,11 @@ EN_serverError_t isBlockedAccount(ST_accountsDB_t *accountReference)
 
     if( accountReference != NULL )
     {
-        if (accountReference == BLOCKED)
+        if (accountReference->state == BLOCKED)
         {
             errorStatus = BLOCKED_ACCOUNT;
         }
-        else if (accountReference == RUNNING)
+        else if (accountReference->state == RUNNING)
         {
             errorStatus = SERVER_OK;
         }
