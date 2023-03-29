@@ -21,7 +21,7 @@ EN_terminalError_t getTransactionDate( ST_terminalData_t *termData )
     printf("Please Enter Transaction Date: ");
     scanf("%s", transDate);
 
-    char* token = strtok(transDate, "/");
+    uint8_t* token = strtok(transDate, "/");
     while(token != NULL)
     {
         x = atoi(token);
