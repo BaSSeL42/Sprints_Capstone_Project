@@ -75,3 +75,49 @@ void listSavedTransactions(void)
     /* ToDo*/
 }
 
+
+
+
+
+/**************************************************************************************************************************
+ *                                                  Function Implementation For Testing
+**************************************************************************************************************************/
+int32_t ret;
+ST_accountsDB_t accountDB;
+void isBlockedAccountTest(void)
+{
+    printf("Test Case1 \n");
+    printf("Input: BLOCKED\n");
+
+    printf(" expected output : BLOCKED_ACCOUNT\n");
+    accountDB.state = BLOCKED;
+
+    ret = isBlockedAccount( &accountDB);
+
+    if (ret == SERVER_OK)
+    {
+        printf("Actual result: SERVER_OK \n");
+    }
+    else if( ret == BLOCKED_ACCOUNT )
+    {
+        printf("Actual result: BLOCKED_ACCOUNT\n");
+    }
+    printf("..........................................................................\n\n");
+
+    printf("Test Case2 \n");
+    printf("Input: state: RUNNING\n");
+
+    printf(" expected output : SERVER_OK\n");
+    accountDB.state = RUNNING;
+    ret = isBlockedAccount( &accountDB);
+
+    if (ret == SERVER_OK)
+    {
+        printf("Actual result: SERVER_OK \n");
+    }
+    else if( ret == BLOCKED_ACCOUNT )
+    {
+        printf("Actual result: BLOCKED_ACCOUNT\n");
+    }
+
+}
