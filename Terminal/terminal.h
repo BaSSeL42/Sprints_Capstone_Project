@@ -45,12 +45,21 @@ typedef enum EN_terminalError_t
 /**************************************************************************************************************************
  *                                                  Function Prototype
 **************************************************************************************************************************/
-EN_terminalError_t getTransactionData( ST_terminalData_t *termData );
+EN_terminalError_t getTransactionDate( ST_terminalData_t *termData );
 EN_terminalError_t isCardExpired( ST_cardData_t *cardData, ST_terminalData_t *termData );
 EN_terminalError_t getTransactionAmount(ST_terminalData_t *termData );
-EN_terminalError_t isBelowMaxAccount(ST_terminalData_t *termData );
-EN_terminalError_t setMaxAccount(ST_terminalData_t *termData , float maxAccount);
+EN_terminalError_t isBelowMaxAmount(ST_terminalData_t *termData );
+EN_terminalError_t setMaxAmount(ST_terminalData_t *termData , float maxAmount);
 EN_terminalError_t isValidCardPAN(ST_cardData_t *cardData);
+
+
+
+
+/**************************************************************************************************************************
+ *                                                  Function Prototype For Testing
+**************************************************************************************************************************/
+void getTransactionDateTest(void);
+void setMaxAmountTest (void);
 
 
 #endif /*TERMINAL_TERMINAL_H_*/

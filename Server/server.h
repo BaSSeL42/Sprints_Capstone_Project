@@ -71,4 +71,10 @@ EN_serverError_t saveTransaction( ST_transaction_t *transData );
 void listSavedTransactions(void);
 
 
+
+/**************************************************************************************************************************
+ *                                                  Function Prototype For Testing
+**************************************************************************************************************************/
+void isBlockedAccountTest(void);
+
 #endif /*SERVER_SERVER_H_*/
