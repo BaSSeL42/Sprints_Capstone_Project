@@ -32,7 +32,13 @@ EN_serverError_t isBlockedAccount(ST_accountsDB_t *accountReference)
 
 EN_serverError_t isAmountAvailable( ST_terminalData_t *termData, ST_accountsDB_t *accountReference )
 {
-    /* ToDo*/
+	/* Check that transaction value is less than account balance */
+	if (termData->transAmount > accountReference->balance)
+	{
+		return LOW_BALANCE;
+	}
+	
+	return SERVER_OK;
 }
 
 
