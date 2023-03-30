@@ -24,27 +24,7 @@ ST_accountsDB_t accountsDB[ACCOUNTS_DB_MAX_SIZE] =
 };
 
 
-ST_transaction_t transactionDB[TRANSACTION_DB_MAX_SIZE] =
-{
-    {
-        {"sherif ashraf","51102000115511100","05/25"},
-        {500,1000,"01-10-2022"},
-        APPROVED,
-        1
-    },
-    {
-        {"yuossef","51102777668811100","04/24"},
-        {1700,20000,"05-05-2021"},
-        INTERNAL_SERVER_ERROR,
-        2
-    },
-    {
-        {"laila","51102888668811188","03/23"},
-        {50000,60000,"06-06-2019"},
-        FRAUD_CARD,
-        3
-    },
-}; 
+ST_transaction_t transactionDB[TRANSACTION_DB_MAX_SIZE];
 /**************************************************************************************************************************
  *                                              Functions Implementation
 **************************************************************************************************************************/
@@ -182,9 +162,10 @@ EN_serverError_t saveTransaction(ST_transaction_t* transData) {
             break;
         }
 
-        
+       
     }
-   listSavedTransactions();
+    savedb();
+    listSavedTransactions();
     return SERVER_OK;
 
 }
@@ -192,6 +173,7 @@ EN_serverError_t saveTransaction(ST_transaction_t* transData) {
 
 void listSavedTransactions(void)
 {
+   
     uint32_t LOCAL_dataBaseLoopCounter; 
     for(LOCAL_dataBaseLoopCounter = TRANSACTION_DB_FIRST_INDEX;LOCAL_dataBaseLoopCounter <= TRANSACTION_DB_MAX_SIZE ; LOCAL_dataBaseLoopCounter++)
     {
@@ -215,7 +197,46 @@ void listSavedTransactions(void)
     }
 }
 
+EN_serverError_t savedb() {
+    FILE* fptr;
+    int i;
+    if ((fptr = fopen("transdatabase.bin", "wb")) == NULL) {
+        printf("Error! opening file");
 
+        // Program exits if the file pointer returns NULL.
+        return INTERNAL_SERVER_ERROR;
+    }
+
+    for(i=1;i<255;++i)
+
+    fwrite(transactionDB, sizeof(ST_transaction_t),255, fptr);
+
+    fclose(fptr);
+
+    return SERVER_OK;
+
+
+}
+EN_serverError_t loaddb() {
+    FILE* fptr;
+    uint8_t i;
+    ST_transaction_t transData;
+    if ((fptr = fopen("transdatabase.bin", "rb")) == NULL) {
+        printf("Error! opening file");
+
+        // Program exits if the file pointer returns NULL.
+        return INTERNAL_SERVER_ERROR;
+    }
+    for(i=0;i<255;++i){
+     fread(transactionDB, sizeof(struct ST_transaction_t), 255, fptr);
+    // printf("%d", transactionDB->transState);
+
+    }
+   
+   // listSavedTransactions();
+    fclose(fptr);
+
+}
 
 
 

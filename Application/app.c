@@ -11,6 +11,9 @@
 
 void appStart(void)
 {
+    
+    loaddb();
+    listSavedTransactions();
 	ST_cardData_t client_data;
     ST_terminalData_t client_transactions;
 
@@ -22,6 +25,7 @@ void appStart(void)
     EN_terminalError_t Return_terminalError;
 
     EN_transState_t Return_serverError;
+   
 
     while(1)
     {
@@ -123,6 +127,7 @@ void appStart(void)
         if(Return_cardError == SERVER_OK)
         {
             /* Do Nothing */
+            listSavedTransactions();
         }
         else
         {
@@ -130,6 +135,6 @@ void appStart(void)
         }
         break;
     }
-   
+ 
 
 }
