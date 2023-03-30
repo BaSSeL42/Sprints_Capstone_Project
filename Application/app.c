@@ -128,6 +128,7 @@ void appStart(void)
         {
             break;
         }
+        break;
     }
    
 

@@ -184,7 +184,7 @@ EN_serverError_t saveTransaction(ST_transaction_t* transData) {
 
         
     }
-    listSavedTransactions();
+   listSavedTransactions();
     return SERVER_OK;
 
 }
@@ -345,6 +345,60 @@ void isValidAccountTest(void)
 
 
 void recieveTransactionDataTest(void) {
-    ST_transaction_t testCases = { {"sherif ashraf","51102000115511100","05/25"},{ 0,0,{0}} };
+    
+    ST_transaction_t testCases1 = { {"sherif ashraf mostafa","4342077277183288","05/25"},{ 1000,MAX_TRANS_AMOUNT,"30/03/2023"}, };
+    ST_transaction_t testCases2 = { {"sherif ashraf mostafa","51102000115511112","05/25"},{1000,MAX_TRANS_AMOUNT,"30/03/2023"}, };
+    ST_transaction_t testCases3 = { {"sherif ashraf mostafa","4342077277183288","05/25"},{ 2500,MAX_TRANS_AMOUNT,"30/03/2023"}, };
+    EN_serverError_t LOCAL_returnValue;
+
+    printf("Tester Name : Sharpel Malak \n");
+    printf("Test Case 1 : Approved data\n");
+    printf("Input Data : {sherif ashraf mostafa,4342077277183288,05/25} ,{ 1000,MAX_TRANS_AMOUNT,30/03/2023}\n");
+    printf("Expected Result : 0 \n");
+    LOCAL_returnValue = recieveTransactionData(&testCases1);
+    printf("Actual Result : %d\n\n", LOCAL_returnValue);
+///////////////////////////
+    printf("Tester Name : Sharpel Malak \n");
+    printf("Test Case 2 : Stolen Card\n");
+    printf("Input Data : {sherif ashraf mostafa,51102000115511112,05/25} ,{ 1000,MAX_TRANS_AMOUNT,30/03/2023}\n");
+    printf("Expected Result : 2 \n");
+    LOCAL_returnValue = recieveTransactionData(&testCases2);
+    printf("Actual Result : %d\n", LOCAL_returnValue);
+
+    ///////////////////////////
+    printf("Tester Name : Sharpel Malak \n");
+    printf("Test Case 3 : Low balance\n");
+    printf("Input Data : {sherif ashraf mostafa,4342077277183288,05/25} ,{ 2500,MAX_TRANS_AMOUNT,30/03/2023}\n");
+    printf("Expected Result :1 \n");
+    LOCAL_returnValue = recieveTransactionData(&testCases3);
+    printf("Actual Result : %d\n", LOCAL_returnValue);
+
 
 }
+void saveTransactionTest(void) {
+    printf("DATA BASE BEFORE SAVING TRANS\n");
+    listSavedTransactions();
+    ST_transaction_t testCases1 = { {"sherif ashraf mostafa","4342077277183288","05/25"},{ 1000,MAX_TRANS_AMOUNT,"30/03/2023"}, };
+    EN_serverError_t LOCAL_returnValue;
+
+    printf("Tester Name : Sharpel Malak \n");
+    printf("Test Case 1 : Approved data\n");
+    printf("Input Data : {sherif ashraf mostafa,4342077277183288,05/25} ,{ 1000,MAX_TRANS_AMOUNT,30/03/2023}\n");
+    printf("Expected Result :  adding one transaction in DB\n");
+    printf("Actual Result : \n\n");
+    LOCAL_returnValue = saveTransaction(&testCases1);
+    printf("Expected Return result :0 \n", LOCAL_returnValue);
+    printf("Actual Return result : %d \n",LOCAL_returnValue);
+   
+
+}
+
+/*
+
+    {2000.000,RUNNING,"4342077277183288"},
+    {5000.000,RUNNING,"51102000115511112"},
+    {6600.000,RUNNING,"12345678910111213"},
+    {2550.200,BLOCKED,"12111098765432100"}
+
+
+*/
