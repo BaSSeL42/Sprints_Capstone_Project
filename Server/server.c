@@ -63,14 +63,38 @@ EN_transState_t recieveTransactionData(ST_transaction_t* transData) {
 
     }
     returnedValue = isValidAccount(&transData->cardHolderData, accountRef);
-    if (returnedValue == ACCOUNT_NOT_FOUND)return FRAUD_CARD;
+    if (returnedValue == ACCOUNT_NOT_FOUND) 
+    {
+        transData->transState = FRAUD_CARD;
+        returnedValue = saveTransaction(transData);
+        return FRAUD_CARD;
+    } 
+
     returnedValue = isAmountAvailable(&transData->terminalData, accountRef);
-    if (returnedValue == LOW_BALANCE)return DECLINED_INSUFFECIENT_FUND;
+    if (returnedValue == LOW_BALANCE)
+    {
+        transData->transState = DECLINED_INSUFFECIENT_FUND;
+        returnedValue = saveTransaction(transData);
+        return DECLINED_INSUFFECIENT_FUND;
+    }
+
     returnedValue = isBlockedAccount(accountRef);
-    if (returnedValue == BLOCKED_ACCOUNT)return DECILINED_STOLEN_CARD;
-    returnedValue = saveTransaction(transData);
-    if (returnedValue == SAVING_FAILED)return INTERNAL_SERVER_ERROR;
+    if (returnedValue == BLOCKED_ACCOUNT)
+    {
+        transData->transState = DECILINED_STOLEN_CARD;
+        returnedValue = saveTransaction(transData);
+        return DECILINED_STOLEN_CARD;
+    }
+
+    if (returnedValue == SAVING_FAILED)
+    {
+        transData->transState = INTERNAL_SERVER_ERROR;
+        returnedValue = saveTransaction(transData);
+        return INTERNAL_SERVER_ERROR;
+    }
+    transData->transState = APPROVED;
     accountRef->balance -= transData->terminalData.transAmount;
+    returnedValue = saveTransaction(transData);
 
     return SERVER_OK;
 }
@@ -140,17 +164,29 @@ EN_serverError_t isAmountAvailable( ST_terminalData_t *termData, ST_accountsDB_t
 
 EN_serverError_t saveTransaction(ST_transaction_t* transData) {
     uint8_t i;
+    
     for (i = 0; i < 255; i++) {
+        
         if (transactionDB[i].transactionSequenceNumber == 0) {
-
+           
             transData->transactionSequenceNumber = i + 1;
-            transactionDB[i] = *transData;
+            transactionDB[i].transactionSequenceNumber = transData->transactionSequenceNumber;
+            transactionDB[i].transState = transData->transState;
+            strcpy(transactionDB[i].cardHolderData.cardHolderName, transData->cardHolderData.cardHolderName);
+            strcpy(transactionDB[i].cardHolderData.cardExpirationDate, transData->cardHolderData.cardExpirationDate);
+            strcpy(transactionDB[i].cardHolderData.primaryAccountNumber,transData->cardHolderData.primaryAccountNumber);
+           // printf("-max---%f\n", transData->terminalData.maxTransAmount);
+           // printf("-amount---%f\n", transData->terminalData.transAmount);
+            transactionDB[i].terminalData.maxTransAmount = transData->terminalData.maxTransAmount;
+            transactionDB[i].terminalData.transAmount = transData->terminalData.transAmount;
+            strcpy(transactionDB[i].terminalData.transactionDate, transData->terminalData.transactionDate);
             break;
         }
 
-        listSavedTransactions();
-        return SERVER_OK;
+        
     }
+    listSavedTransactions();
+    return SERVER_OK;
 
 }
 
@@ -165,9 +201,9 @@ void listSavedTransactions(void)
             printf("######################################### \n\n");
             printf("Transaction Sequence Number : %d \n",transactionDB[LOCAL_dataBaseLoopCounter].transactionSequenceNumber);
             printf("Transaction Date            : %s \n",transactionDB[LOCAL_dataBaseLoopCounter].terminalData.transactionDate);
-            printf("Transaction Amount          : %d \n",transactionDB[LOCAL_dataBaseLoopCounter].terminalData.transAmount);
+            printf("Transaction Amount          : %f \n",transactionDB[LOCAL_dataBaseLoopCounter].terminalData.transAmount);
             printf("Transaction State           : %d \n",transactionDB[LOCAL_dataBaseLoopCounter].transState);
-            printf("Terminal Max Amount         : %d \n",transactionDB[LOCAL_dataBaseLoopCounter].terminalData.maxTransAmount);
+            printf("Terminal Max Amount         : %f \n",transactionDB[LOCAL_dataBaseLoopCounter].terminalData.maxTransAmount);
             printf("Cardholder Name             : %s \n",transactionDB[LOCAL_dataBaseLoopCounter].cardHolderData.cardHolderName);
             printf("PAN                         : %s \n",transactionDB[LOCAL_dataBaseLoopCounter].cardHolderData.primaryAccountNumber);
             printf("Card Expiration Date        : %s \n",transactionDB[LOCAL_dataBaseLoopCounter].cardHolderData.cardExpirationDate);

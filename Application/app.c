@@ -106,7 +106,7 @@ void appStart(void)
 
         if(Return_cardError == TERMINAL_OK)
         {
-            /* Do Nothing */ printf("ok from amount \n");
+            /* Do Nothing */
         }
         else
         {
@@ -122,7 +122,7 @@ void appStart(void)
 
         if(Return_cardError == SERVER_OK)
         {
-            /* Do Nothing */printf("ok from transaction \n");
+            /* Do Nothing */
         }
         else
         {

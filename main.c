@@ -5,6 +5,7 @@
 void main(void)
 {
     appStart();
+    system("pause");
 }
 
 
