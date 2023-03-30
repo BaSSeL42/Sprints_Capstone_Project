@@ -158,3 +158,64 @@ void isBlockedAccountTest(void)
     }
 
 }
+
+
+/*
+Tester Name: Alaa Hisham
+
+Function Name: isAmountAvailable
+*/
+
+void isAmountAvailableTest(void)
+{
+	ST_terminalData_t termData = { 0,0,{0} };
+	ST_accountsDB_t account = { 5000,0,{0} };
+	uint8_t expected, result;
+
+	printf("Testing (isValidCardPAN) function\n\n");
+
+	/* Test Case 1: transaction amount more than account balance */
+	termData.transAmount = 5000.1;
+	expected = LOW_BALANCE;
+
+	result = isAmountAvailable(&termData, &account);
+
+	if (result == LOW_BALANCE)
+	{
+		printf("Test case 1 passed!\n\n");
+	}
+	else
+	{
+		printf("Test case 1 failed!\n\n");
+	}
+
+	/* Test Case 2: transaction amount same as account balance */
+	termData.transAmount = 5000;
+	expected = SERVER_OK;
+
+	result = isAmountAvailable(&termData, &account);
+
+	if (result == SERVER_OK)
+	{
+		printf("Test case 2 passed!\n\n");
+	}
+	else
+	{
+		printf("Test case 2 failed!\n\n");
+	}
+
+	/* Test Case 3: transaction amount less than account balance  */
+	termData.transAmount = 4999.9;
+	expected = SERVER_OK;
+
+	result = isAmountAvailable(&termData, &account);
+
+	if (result == SERVER_OK)
+	{
+		printf("Test case 3 passed!\n\n");
+	}
+	else
+	{
+		printf("Test case 3 failed!\n\n");
+	}
+}

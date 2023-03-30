@@ -59,7 +59,9 @@ EN_terminalError_t isValidCardPAN(ST_cardData_t *cardData);
  *                                                  Function Prototype For Testing
 **************************************************************************************************************************/
 void getTransactionDateTest(void);
+void isCardExpiredTest(void);
 void setMaxAmountTest (void);
+void isValidCardPANTest(void);
 
 
 #endif /*TERMINAL_TERMINAL_H_*/

@@ -75,8 +75,113 @@ EN_cardError_t getCardPan(ST_cardData_t* cardData)
 
 
 
-////////////////////////////////////////////////////
+/**************************************************************************************************************************
+ *                                                  Function Implementation For Testing
+**************************************************************************************************************************/
 
+/*
+Tester Name: Alaa Hisham
+
+Function Name: getCardHolderName
+*/
+
+void getCardHolderNameTest(void)
+{
+	uint8_t expected, result;
+	ST_cardData_t testCard = { {0},{0},{0} };
+
+	printf("Testing (getCardHolderName) function\n\n");
+
+	/* Test Case 1: input less than 20 characters */
+	uint8_t input1[] = "Less than twenty";	
+	expected = WRONG_NAME; 
+
+	result = getCardHolderName(&testCard);
+
+	if (result == WRONG_NAME)
+	{
+		printf("Test case 1 passed!\n\n");
+	}
+	else
+	{
+		printf("Test case 1 failed!\n\n");
+	}
+
+	/* Test Case 2: input is twenty characters */
+	uint8_t input2[] = "A twenty char phrase";
+	expected = CARD_OK;
+
+	result = getCardHolderName(&testCard);
+
+	if (result == CARD_OK)
+	{
+		printf("Test case 2 passed!\n\n");
+	}
+	else
+	{
+		printf("Test case 2 failed!\n\n");
+	}
+
+	/* Test Case 3: input is twenty characters, but not all letters  */
+	uint8_t input3[] = "A twenty-char phrase";	
+	expected = WRONG_NAME;
+
+	result = getCardHolderName(&testCard);
+
+	if (result == WRONG_NAME)
+	{
+		printf("Test case 3 passed!\n\n");
+	}
+	else
+	{
+		printf("Test case 3 failed!\n\n");
+	}
+
+	/* Test Case 4: input is more than twenty and less than twenty four letters  */
+	uint8_t input4[] = "twenty one characters";
+	expected = CARD_OK;
+
+	result = getCardHolderName(&testCard);
+
+	if (result == CARD_OK)
+	{
+		printf("Test case 4 passed!\n\n");
+	}
+	else
+	{
+		printf("Test case 4 failed!\n\n");
+	}
+
+	/* Test Case 5: input is twenty four letters */
+	uint8_t input5[] = "Random sentences to test";
+	expected = CARD_OK;
+
+	result = getCardHolderName(&testCard);
+
+	if (result == CARD_OK)
+	{
+		printf("Test case 5 passed!\n\n");
+	}
+	else
+	{
+		printf("Test case 5 failed!\n\n");
+	}
+
+	/* Test Case 6: input is twenty five letters */
+	uint8_t input6[] = "Random phrases for a test";
+	expected = WRONG_NAME;
+
+	result = getCardHolderName(&testCard);
+
+	if (result == WRONG_NAME)
+	{
+		printf("Test case 6 passed!\n\n");
+	}
+	else
+	{
+		printf("Test case 6 failed!\n\n");
+	}
+}
 
 void getCardExpirayDateTest(void) {
 

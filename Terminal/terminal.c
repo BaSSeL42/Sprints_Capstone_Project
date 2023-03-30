@@ -234,6 +234,65 @@ void getTransactionDateTest(void)
 }
 
 
+/*
+Tester Name: Alaa Hisham
+
+Function Name: isCardExpired
+*/
+void isCardExpiredTest(void)
+{
+	uint8_t expected, result;
+	ST_cardData_t cardData = { {0},{0},"11/22" };
+
+	printf("Testing (isCardExpired) function\n\n");
+
+	/*----------------- Test Case 1 ------------------*/
+	ST_terminalData_t termData1 = { 0,0, "30/12/2019" };
+	expected = CARD_OK;
+
+	result = isCardExpired(&cardData, &termData1);
+
+	if (result == CARD_OK)
+	{
+		printf("Test case 1 passed!\n\n");
+	}
+	else
+	{
+		printf("Test case 1 failed!\n\n");
+	}
+
+	/*----------------- Test Case 2 ------------------*/
+	ST_terminalData_t termData2 = { 0,0, "30/03/2022" };
+	expected = CARD_OK;
+
+	result = isCardExpired(&cardData, &termData2);
+
+	if (result == CARD_OK)
+	{
+		printf("Test case 2 passed!\n\n");
+	}
+	else
+	{
+		printf("Test case 2 failed!\n\n");
+	}
+
+	/*----------------- Test Case 3 ------------------*/
+	ST_terminalData_t termData3 = { 0,0, "30/12/2022" };
+	expected = CARD_OK;
+
+	result = isCardExpired(&cardData, &termData3);
+
+	if (result == EXPIRED_CARD)
+	{
+		printf("Test case 3 passed!\n\n");
+	}
+	else
+	{
+		printf("Test case 3 failed!\n\n");
+	}
+}
+
+
 
 void setMaxAmountTest (void)
 {
@@ -282,4 +341,79 @@ void getTransactionAmountTest(void) {
     printf("Expected result : 0\n");
     printf("Actual result : %d\n", returnedval);
 }
->>>>>>> main
+
+
+/*
+Tester Name: Alaa Hisham
+
+Function Name: isValidCardPAN
+*/
+void isValidCardPANTest(void)
+{
+	uint8_t expected, result;
+
+	printf("Testing (isValidCardPAN) function\n\n");
+
+	/*----------------- Test Case 1 ------------------*/
+	/* Not a valid card number but it satisfies luhn's algorithm */
+	ST_cardData_t cardData1 = { {0}, "8649", {0} };
+	expected = TERMINAL_OK;
+
+	result = isValidCardPAN(&cardData1);
+
+	if (result == TERMINAL_OK)
+	{
+		printf("Test case 1 passed!\n\n");
+	}
+	else
+	{
+		printf("Test case 1 failed!\n\n");
+	}
+
+	/*----------------- Test Case 2 ------------------*/
+	ST_cardData_t cardData2 = { {0}, "432420754971832789", {0} };
+	expected = INVALID_CARD;
+
+	result = isValidCardPAN(&cardData2);
+
+	if (result == INVALID_CARD)
+	{
+		printf("Test case 2 passed!\n\n");
+	}
+	else
+	{
+		printf("Test case 2 failed!\n\n");
+	}
+
+	/*----------------- Test Case 3 ------------------*/
+	ST_cardData_t cardData3 = { {0}, "4342077277183288", {0} };
+	expected = TERMINAL_OK;
+
+	result = isValidCardPAN(&cardData3);
+
+	if (result == TERMINAL_OK)
+	{
+		printf("Test case 3 passed!\n\n");
+	}
+	else
+	{
+		printf("Test case 3 failed!\n\n");
+	}
+
+	/*----------------- Test Case 4 ------------------*/
+	ST_cardData_t cardData4 = { {0}, "1234567898765432", {0} };
+	expected = INVALID_CARD;
+
+	result = isValidCardPAN(&cardData4);
+
+	if (result == INVALID_CARD)
+	{
+		printf("Test case 4 passed!\n\n");
+	}
+	else
+	{
+		printf("Test case 4 failed!\n\n");
+	}
+
+
+}

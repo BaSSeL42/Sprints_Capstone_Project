@@ -76,5 +76,6 @@ void listSavedTransactions(void);
  *                                                  Function Prototype For Testing
 **************************************************************************************************************************/
 void isBlockedAccountTest(void);
+void isAmountAvailableTest(void);
 
 #endif /*SERVER_SERVER_H_*/
