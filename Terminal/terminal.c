@@ -86,9 +86,15 @@ EN_terminalError_t isCardExpired( ST_cardData_t *cardData, ST_terminalData_t *te
 }
 
 
-EN_terminalError_t getTransactionAmount(ST_terminalData_t *termData )
-{
-    /* ToDo */
+EN_terminalError_t getTransactionAmount(ST_terminalData_t* termData) {
+    float amount;
+    printf("ENTER THE TRANSACTION AMOUNT : ");
+    scanf("%f", &amount);
+    if (amount <= 0)return INVALID_AMOUNT;
+    termData->transAmount = amount;
+    return TERMINAL_OK;
+
+
 }
 
 
@@ -209,4 +215,16 @@ void setMaxAmountTest (void)
         printf("Actual result: INVALID_MAX_AMOUNT\n");
     }
 
+}
+
+
+void getTransactionAmountTest(void) {
+    ST_terminalData_t x;
+    EN_terminalError_t returnedval;
+    returnedval = getTransactionAmount(&x);
+    printf("Tester Name : Sharpel Malak\n");
+    printf("Testcase 4  : user enters positive and right amount \n");
+    printf("Input data  :  5000\n");
+    printf("Expected result : 0\n");
+    printf("Actual result : %d\n", returnedval);
 }
