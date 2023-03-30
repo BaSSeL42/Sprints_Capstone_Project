@@ -80,8 +80,11 @@ void listSavedTransactions(void);
 /**************************************************************************************************************************
  *                                                  Function Prototype For Testing
 **************************************************************************************************************************/
+
+void recieveTransactionDataTest(void);
 void isBlockedAccountTest(void);
 void isAmountAvailableTest(void);
 void isValidAccountTest(void);
+void saveTransactionTest(void);
 
 #endif /*SERVER_SERVER_H_*/

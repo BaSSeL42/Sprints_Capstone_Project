@@ -94,6 +94,7 @@ EN_transState_t recieveTransactionData(ST_transaction_t* transData) {
     }
     transData->transState = APPROVED;
     accountRef->balance -= transData->terminalData.transAmount;
+    //printf("\n--- new balance : %f\n", accountRef->balance);
     returnedValue = saveTransaction(transData);
 
     return SERVER_OK;
@@ -175,8 +176,6 @@ EN_serverError_t saveTransaction(ST_transaction_t* transData) {
             strcpy(transactionDB[i].cardHolderData.cardHolderName, transData->cardHolderData.cardHolderName);
             strcpy(transactionDB[i].cardHolderData.cardExpirationDate, transData->cardHolderData.cardExpirationDate);
             strcpy(transactionDB[i].cardHolderData.primaryAccountNumber,transData->cardHolderData.primaryAccountNumber);
-           // printf("-max---%f\n", transData->terminalData.maxTransAmount);
-           // printf("-amount---%f\n", transData->terminalData.transAmount);
             transactionDB[i].terminalData.maxTransAmount = transData->terminalData.maxTransAmount;
             transactionDB[i].terminalData.transAmount = transData->terminalData.transAmount;
             strcpy(transactionDB[i].terminalData.transactionDate, transData->terminalData.transactionDate);
@@ -225,6 +224,9 @@ void listSavedTransactions(void)
 **************************************************************************************************************************/
 int32_t ret;
 ST_accountsDB_t accountDB;
+
+
+
 void isBlockedAccountTest(void)
 {
     printf("Test Case1 \n");
@@ -341,3 +343,8 @@ void isValidAccountTest(void)
     printf("Balance : %.2f \n",LOCAL_returnAccountReffrence.balance);
 }
 
+
+void recieveTransactionDataTest(void) {
+    ST_transaction_t testCases = { {"sherif ashraf","51102000115511100","05/25"},{ 0,0,{0}} };
+
+}
