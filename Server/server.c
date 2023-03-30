@@ -44,12 +44,12 @@ ST_transaction_t transaction_t[TRANSACTION_DB_MAX_SIZE] =
 EN_transState_t recieveTransactionData(ST_transaction_t* transData) {
 
     EN_serverError_t returnedValue;
-    ST_accountsDB_t *accountRef;
+    ST_accountsDB_t* accountRef = NULL;
     uint8_t i;
     for (i = 0; i < 255; i++) {
-        if (!strcmp(&transData->cardHolderData.primaryAccountNumber, &accountsDB[i].primaryAccountNumber))
+        if (!strcmp(transData->cardHolderData.primaryAccountNumber, accountsDB[i].primaryAccountNumber))
         {
-            accountRef = &accountDB[i];
+            accountRef = &accountsDB[i];
             break;
         }
 
@@ -60,16 +60,14 @@ EN_transState_t recieveTransactionData(ST_transaction_t* transData) {
     if (returnedValue == LOW_BALANCE)return DECLINED_INSUFFECIENT_FUND;
     returnedValue = isBlockedAccount(accountRef);
     if (returnedValue == BLOCKED_ACCOUNT)return DECILINED_STOLEN_CARD;
-    returnedValue = saveTransaction(transData->transState);
+    returnedValue = saveTransaction(&transData->transState);
     if (returnedValue == SAVING_FAILED)return INTERNAL_SERVER_ERROR;
-
-    *accountRef.balance -= transData->terminalData.transAmount
+    accountRef->balance -= transData->terminalData.transAmount;
 
     return SERVER_OK;
 
 
 }
-
 
 EN_serverError_t isValidAccount( ST_cardData_t *cardData,  ST_accountsDB_t *accountReference)
 {
