@@ -4,6 +4,11 @@
 #ifndef SERVER_SERVER_H_
 #define SERVER_SERVER_H_
 
+#include <stdio.h>
+#include "../Common/STD_types.h"
+#include "../Card/card.h"
+#include "../Terminal/terminal.h"
+#include<string.h> 
 
 
 /**************************************************************************************************************************
@@ -57,7 +62,11 @@ typedef struct ST_accountsDB_t
 	
 }ST_accountsDB_t; 
 
+#define ACCOUNTS_DB_FIRST_INDEX		0
+#define ACCOUNTS_DB_MAX_SIZE		256
 
+#define TRANSACTION_DB_FIRST_INDEX	0
+#define TRANSACTION_DB_MAX_SIZE		256
 
 /**************************************************************************************************************************
  *                                               Function Prototype
@@ -77,5 +86,6 @@ void listSavedTransactions(void);
 **************************************************************************************************************************/
 void isBlockedAccountTest(void);
 void isAmountAvailableTest(void);
+void isValidAccountTest(void);
 
 #endif /*SERVER_SERVER_H_*/

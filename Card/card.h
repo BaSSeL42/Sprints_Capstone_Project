@@ -4,6 +4,9 @@
 #ifndef CARD_CARD_H_
 #define CARD_CARD_H_
 
+#include <string.h>
+#include <ctype.h>
+
 /**************************************************************************************************************************
  *                                              		  Macros
 **************************************************************************************************************************/
@@ -51,6 +54,6 @@ EN_cardError_t getCardPan(ST_cardData_t* cardData);
  *                                             Function Prototypes For Testing
 **************************************************************************************************************************/
 void getCardHolderNameTest(void);
-
+void getCardPanTest(void);
 
 #endif /*CARD_CARD_H_*/

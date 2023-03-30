@@ -1,18 +1,43 @@
 /**************************************************************************************************************************
  *                                                      Includes
 **************************************************************************************************************************/
-#include <stdio.h>
-#include "../Common/STD_types.h"
-#include "../Card/card.h"
-#include "../Terminal/terminal.h"
+
 #include "server.h"
 
 
 /**************************************************************************************************************************
  *                                              Global Variables
 **************************************************************************************************************************/
-ST_accountsDB_t  accountsDB[255];
-ST_transaction_t transactionDB[255];
+ST_accountsDB_t accountsDB[ACCOUNTS_DB_MAX_SIZE] = 
+{
+    {2000.000,RUNNING,"51102000115511100"},
+    {5000.000,BLOCKED,"51102000115511112"},
+    {6600.000,RUNNING,"12345678910111213"},
+    {2550.200,BLOCKED,"12111098765432100"}
+};
+
+
+ST_transaction_t transaction_t[TRANSACTION_DB_MAX_SIZE] =
+{
+    {
+        {"sherif ashraf","51102000115511100","05/25"},
+        {500,1000,"01-10-2022"},
+        APPROVED,
+        101
+    },
+    {
+        {"yuossef","51102777668811100","04/24"},
+        {1700,20000,"05-05-2021"},
+        INTERNAL_SERVER_ERROR,
+        102
+    },
+    {
+        {"laila","51102888668811188","03/23"},
+        {50000,60000,"06-06-2019"},
+        FRAUD_CARD,
+        103
+    },
+}; 
 /**************************************************************************************************************************
  *                                              Functions Implementation
 **************************************************************************************************************************/
@@ -48,7 +73,22 @@ EN_transState_t recieveTransactionData(ST_transaction_t* transData) {
 
 EN_serverError_t isValidAccount( ST_cardData_t *cardData,  ST_accountsDB_t *accountReference)
 {
-    /* ToDo*/
+    EN_serverError_t LOCAL_returnValue = ACCOUNT_NOT_FOUND;
+    uint32_t LOCAL_dataBaseLoopCounter;
+    for(LOCAL_dataBaseLoopCounter = ACCOUNTS_DB_FIRST_INDEX ; LOCAL_dataBaseLoopCounter <= ACCOUNTS_DB_MAX_SIZE ; LOCAL_dataBaseLoopCounter++)
+    {
+        if(!strcmp((cardData->primaryAccountNumber),(accountsDB[LOCAL_dataBaseLoopCounter].primaryAccountNumber)))
+        {
+            *accountReference = accountsDB[LOCAL_dataBaseLoopCounter];
+            LOCAL_returnValue = SERVER_OK;
+            break;
+        }
+    }
+    if(LOCAL_returnValue == ACCOUNT_NOT_FOUND)
+    {
+        accountReference = NULL;
+    }
+    return LOCAL_returnValue;
 }
 
 
@@ -113,7 +153,27 @@ EN_serverError_t saveTransaction(ST_transaction_t* transData) {
 
 void listSavedTransactions(void)
 {
-    /* ToDo*/
+    uint32_t LOCAL_dataBaseLoopCounter; 
+    for(LOCAL_dataBaseLoopCounter = TRANSACTION_DB_FIRST_INDEX;LOCAL_dataBaseLoopCounter <= TRANSACTION_DB_MAX_SIZE ; LOCAL_dataBaseLoopCounter++)
+    {
+        if(transaction_t[LOCAL_dataBaseLoopCounter].transactionSequenceNumber != 0)
+        {
+            printf("######################################### \n\n");
+            printf("Transaction Sequence Number : %d \n",transaction_t[LOCAL_dataBaseLoopCounter].transactionSequenceNumber);
+            printf("Transaction Date            : %s \n",transaction_t[LOCAL_dataBaseLoopCounter].terminalData.transactionData);
+            printf("Transaction Amount          : %d \n",transaction_t[LOCAL_dataBaseLoopCounter].terminalData.transAmount);
+            printf("Transaction State           : %d \n",transaction_t[LOCAL_dataBaseLoopCounter].transState);
+            printf("Terminal Max Amount         : %d \n",transaction_t[LOCAL_dataBaseLoopCounter].terminalData.maxTransAmount);
+            printf("Cardholder Name             : %s \n",transaction_t[LOCAL_dataBaseLoopCounter].cardHolderData.cardHolderName);
+            printf("PAN                         : %s \n",transaction_t[LOCAL_dataBaseLoopCounter].cardHolderData.primaryAccountNumber);
+            printf("Card Expiration Date        : %s \n",transaction_t[LOCAL_dataBaseLoopCounter].cardHolderData.cardExpirationDate);
+            printf("######################################### \n\n");
+        }
+        else
+        {
+            break;
+        }
+    }
 }
 
 
@@ -223,3 +283,21 @@ void isAmountAvailableTest(void)
 		printf("Test case 3 failed!\n\n");
 	}
 }
+
+
+void isValidAccountTest(void)
+{
+    ST_cardData_t testCase1 = {"sherif ashraf","51102000115511100","05/25"};
+    EN_serverError_t LOCAL_returnValue;
+    ST_accountsDB_t LOCAL_returnAccountReffrence;
+    printf("Tester Name : Sherif Ashraf \n");
+    printf("Test Case 1 : \n");
+    printf("Input Data : {sherif ashraf,51102000115511100,05/25} \n");
+    printf("Expected Result : \nPrimary Account Number : 51102000115511100 \nState : 0 \nBalance : 2000.00 \n \n");
+    LOCAL_returnValue = isValidAccount(&testCase1,&LOCAL_returnAccountReffrence);
+    printf("Actual Result : %d\n",LOCAL_returnValue);
+    printf("Primary Account Number : %s \n",LOCAL_returnAccountReffrence.primaryAccountNumber);
+    printf("State : %d \n",LOCAL_returnAccountReffrence.state);
+    printf("Balance : %.2f \n",LOCAL_returnAccountReffrence.balance);
+}
+

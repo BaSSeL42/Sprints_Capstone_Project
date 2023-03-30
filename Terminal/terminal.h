@@ -4,6 +4,13 @@
 #ifndef TERMINAL_TERMINAL_H_
 #define TERMINAL_TERMINAL_H_
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "../Common/STD_types.h"
+#include "../Card/card.h"
+
+
 
 /**************************************************************************************************************************
  *                                              		  Macros
@@ -62,6 +69,6 @@ void getTransactionDateTest(void);
 void isCardExpiredTest(void);
 void setMaxAmountTest (void);
 void isValidCardPANTest(void);
-
+void isBelowMaxAccountTest(void);
 
 #endif /*TERMINAL_TERMINAL_H_*/

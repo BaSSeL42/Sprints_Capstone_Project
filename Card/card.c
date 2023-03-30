@@ -69,8 +69,31 @@ EN_cardError_t getCardExpirayDate(ST_cardData_t* cardData) {
 
 EN_cardError_t getCardPan(ST_cardData_t* cardData)
 {
-	
-	/* ToDo */
+	EN_cardError_t LOCAL_returnValue = WRONG_PAN;
+	uint8_t LOCAL_checkPan[20] = "NULL";
+	uint8_t LOCAL_counter,LOCAL_flag = 0;
+	printf("Please Enter Your Primary Account Number \n");
+	scanf("%s",LOCAL_checkPan);
+
+	for(uint8_t LOCAL_counter = 0 ; LOCAL_counter < strlen(LOCAL_checkPan);LOCAL_counter++)
+	{
+		if(isdigit(LOCAL_checkPan[LOCAL_counter]))
+		{
+			LOCAL_flag++;
+		}
+	}
+
+	if( (strlen(LOCAL_checkPan) == '\n') || (strlen(LOCAL_checkPan) < 16 ) || (strlen(LOCAL_checkPan) > 19) 
+		 || (LOCAL_flag != (strlen(LOCAL_checkPan))))
+	{
+		LOCAL_returnValue = WRONG_PAN;
+	}
+	else
+	{
+		LOCAL_returnValue = CARD_OK;
+		strcpy(cardData->primaryAccountNumber,LOCAL_checkPan);
+	}
+	return LOCAL_returnValue;
 }
 
 
@@ -194,4 +217,38 @@ void getCardExpirayDateTest(void) {
 	printf("Expected result : 2\n");
 	printf("Actual result : %d\n", returnedval);
 
+}
+
+void getCardPanTest(void)
+{
+	 ST_cardData_t testCase1 =  {"temp","temp","temp"};
+	 ST_cardData_t testCase2 =  {"temp","temp","temp"};
+	 ST_cardData_t testCase3 = {"temp","temp","temp"};
+	 EN_cardError_t LOCAL_returnValue;
+	printf("Tester Name : Sherif Ashraf \n");
+	printf("Test Case 1 : \n");
+	printf("Input Data : 51102000115511100 \n");
+	printf("Expected Result : 0 \n");
+	printf("Current primary Account Number : %s \n",testCase1.primaryAccountNumber);
+	LOCAL_returnValue = getCardPan(&testCase1);
+	printf("Actual Result : %d \n",LOCAL_returnValue);
+	printf("Stored primary Account Number : %s \n",testCase1.primaryAccountNumber);
+
+	printf("\n\nTester Name : Sherif Ashraf \n");
+	printf("Test Case 2 : \n");
+	printf("Input Data : 11020001155 \n");
+	printf("Expected Result : 3 \n");
+	printf("Current primary Account Number : %s \n",testCase2.primaryAccountNumber);
+	LOCAL_returnValue = getCardPan(&testCase2);
+	printf("Actual Result : %d \n",LOCAL_returnValue);
+	printf("Stored primary Account Number : %s \n",testCase2.primaryAccountNumber);
+
+	printf("\n\nTester Name : Sherif Ashraf \n");
+	printf("Test Case 3 : \n");
+	printf("Input Data : 51102000115511100547862 \n");
+	printf("Expected Result : 3 \n");
+	printf("Current primary Account Number : %s \n",testCase3.primaryAccountNumber);
+	LOCAL_returnValue = getCardPan(&testCase3);
+	printf("Actual Result : %d \n",LOCAL_returnValue);
+	printf("Stored primary Account Number : %s \n",testCase3.primaryAccountNumber);
 }
