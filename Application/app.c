@@ -11,7 +11,8 @@
 
 void appStart(void)
 {
-    
+
+    loaddbAccounts();
     loaddb();
     listSavedTransactions();
 	ST_cardData_t client_data;
@@ -75,7 +76,7 @@ void appStart(void)
 
         Return_terminalError = isCardExpired(&client_data,&client_transactions);
 
-        if(Return_cardError == TERMINAL_OK)
+        if(Return_terminalError == TERMINAL_OK)
         {
             /* Do Nothing */
         }
@@ -86,7 +87,7 @@ void appStart(void)
 
         Return_terminalError = isValidCardPAN(&client_data);
 
-        if(Return_cardError == TERMINAL_OK)
+        if(Return_terminalError == TERMINAL_OK)
         {
             /* Do Nothing */ 
         }
@@ -97,7 +98,7 @@ void appStart(void)
 
         Return_terminalError = getTransactionAmount(&client_transactions);
 
-        if(Return_cardError == TERMINAL_OK)
+        if(Return_terminalError == TERMINAL_OK)
         {
             /* Do Nothing */
         }
@@ -108,7 +109,7 @@ void appStart(void)
 
         Return_terminalError = isBelowMaxAmount(&client_transactions);
 
-        if(Return_cardError == TERMINAL_OK)
+        if(Return_terminalError == TERMINAL_OK)
         {
             /* Do Nothing */
         }
@@ -124,7 +125,7 @@ void appStart(void)
         };
         Return_serverError = recieveTransactionData(&client_server);
 
-        if(Return_cardError == SERVER_OK)
+        if(Return_serverError == SERVER_OK)
         {
             /* Do Nothing */
             listSavedTransactions();

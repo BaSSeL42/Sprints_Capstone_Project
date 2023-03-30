@@ -13,16 +13,17 @@
 #pragma warning(disable : 4996)
 
 /**************************************************************************************************************************
- *                                              Global Variables
-**************************************************************************************************************************/
-ST_accountsDB_t accountsDB[ACCOUNTS_DB_MAX_SIZE] = 
-{
-    {2000.000,RUNNING,"4342077277183288"},
-    {5000.000,BLOCKED,"51102000115511112"},
+ *       {10000.000,RUNNING,"4342077277183288"},
+    {5000.000,RUNNING,"51102000115511112"},
     {6600.000,RUNNING,"12345678910111213"},
-    {2550.200,BLOCKED,"12111098765432100"}
-};
-
+    {2550.200,BLOCKED,"12111098765432100"}     
+ 
+ 
+ 
+ 
+ Global Variables
+**************************************************************************************************************************/
+ST_accountsDB_t accountsDB[ACCOUNTS_DB_MAX_SIZE];
 
 ST_transaction_t transactionDB[TRANSACTION_DB_MAX_SIZE];
 /**************************************************************************************************************************
@@ -74,6 +75,7 @@ EN_transState_t recieveTransactionData(ST_transaction_t* transData) {
     }
     transData->transState = APPROVED;
     accountRef->balance -= transData->terminalData.transAmount;
+    savedbAccounts();
     //printf("\n--- new balance : %f\n", accountRef->balance);
     returnedValue = saveTransaction(transData);
 
@@ -234,6 +236,47 @@ EN_serverError_t loaddb() {
     }
    
    // listSavedTransactions();
+    fclose(fptr);
+
+}
+
+EN_serverError_t savedbAccounts() {
+    FILE* fptr;
+    int i;
+    if ((fptr = fopen("accountsdatabase.bin", "wb")) == NULL) {
+        printf("Error! opening file");
+
+        // Program exits if the file pointer returns NULL.
+        return INTERNAL_SERVER_ERROR;
+    }
+
+    for (i = 1; i < 255; ++i)
+
+        fwrite(accountsDB, sizeof(ST_accountsDB_t), 255, fptr);
+
+    fclose(fptr);
+
+    return SERVER_OK;
+
+
+}
+
+EN_serverError_t loaddbAccounts() {
+    FILE* fptr;
+    uint8_t i;
+    ST_transaction_t transData;
+    if ((fptr = fopen("accountsdatabase.bin", "rb")) == NULL) {
+        printf("Error! opening file");
+
+      
+        return INTERNAL_SERVER_ERROR;
+    }
+    for (i = 0; i < 255; ++i) {
+        fread(accountsDB, sizeof(ST_accountsDB_t), 255, fptr);
+       
+    }
+
+   
     fclose(fptr);
 
 }

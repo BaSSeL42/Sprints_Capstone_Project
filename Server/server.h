@@ -75,6 +75,11 @@ EN_serverError_t saveTransaction( ST_transaction_t *transData );
 
 void listSavedTransactions(void);
 
+EN_serverError_t savedb();
+EN_serverError_t loaddb();
+EN_serverError_t savedbAccounts();
+EN_serverError_t loaddbAccounts();
+
 
 
 /**************************************************************************************************************************
