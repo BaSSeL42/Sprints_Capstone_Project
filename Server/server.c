@@ -19,24 +19,28 @@ ST_transaction_t transactionDB[255];
 EN_transState_t recieveTransactionData(ST_transaction_t* transData) {
 
     EN_serverError_t returnedValue;
+    ST_accountsDB_t *accountRef;
     uint8_t i;
-    returnedValue = isValidAccount(&transData->cardHolderData, accountsDB);
+    for (i = 0; i < 255; i++) {
+        if (!strcmp(&transData->cardHolderData.primaryAccountNumber, &accountsDB[i].primaryAccountNumber))
+        {
+            accountRef = &accountDB[i];
+            break;
+        }
+
+    }
+    returnedValue = isValidAccount(&transData->cardHolderData, accountRef);
     if (returnedValue == ACCOUNT_NOT_FOUND)return FRAUD_CARD;
-    returnedValue = isAmountAvailable(&transData->terminalData, accountsDB);
+    returnedValue = isAmountAvailable(&transData->terminalData, accountRef);
     if (returnedValue == LOW_BALANCE)return DECLINED_INSUFFECIENT_FUND;
-    returnedValue = isBlockedAccount(accountsDB);
+    returnedValue = isBlockedAccount(accountRef);
     if (returnedValue == BLOCKED_ACCOUNT)return DECILINED_STOLEN_CARD;
     returnedValue = saveTransaction(transData->transState);
     if (returnedValue == SAVING_FAILED)return INTERNAL_SERVER_ERROR;
 
-    for (i = 0; i < 255; i++) {
-        if (!strcmp(&transData->cardHolderData.primaryAccountNumber, &accountsDB[i].primaryAccountNumber))
-        {
-            accountsDB[i].balance = accountsDB[i].balance - transData->terminalData.transAmount;
-            return SERVER_OK;
-        }
+    *accountRef.balance -= transData->terminalData.transAmount
 
-    }
+    return SERVER_OK;
 
 
 }
