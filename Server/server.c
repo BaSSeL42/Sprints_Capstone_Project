@@ -73,7 +73,6 @@ EN_transState_t recieveTransactionData(ST_transaction_t* transData) {
     return SERVER_OK;
 }
 
-
 EN_serverError_t isValidAccount( ST_cardData_t *cardData,  ST_accountsDB_t *accountReference)
 {
     EN_serverError_t LOCAL_returnValue = ACCOUNT_NOT_FOUND;
