@@ -4,8 +4,11 @@
 #ifndef CARD_CARD_H_
 #define CARD_CARD_H_
 
+#include <stdio.h>
+#include "../Common/STD_types.h"
 #include <string.h>
 #include <ctype.h>
+#include <stdlib.h>
 
 /**************************************************************************************************************************
  *                                              		  Macros
@@ -20,6 +23,12 @@
 #define Z_ASCII_INDEX       90
 #define a_ASCII_INDEX       97
 #define z_ASCII_INDEX       122
+
+#define MAX_SIZE			10
+#define MAX_EXPIRE			6
+#define MAX_MONTH			12
+#define MIN_MONTH			1
+
 
 /**************************************************************************************************************************
  *                                              User Defined Data Type

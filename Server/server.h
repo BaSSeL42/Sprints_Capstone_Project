@@ -4,11 +4,7 @@
 #ifndef SERVER_SERVER_H_
 #define SERVER_SERVER_H_
 
-#include <stdio.h>
-#include "../Common/STD_types.h"
-#include "../Card/card.h"
-#include "../Terminal/terminal.h"
-#include<string.h> 
+
 
 
 /**************************************************************************************************************************
