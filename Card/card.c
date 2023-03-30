@@ -3,7 +3,7 @@
 **************************************************************************************************************************/
 
 #include "card.h"
-
+#pragma warning(disable : 4996)
 
 
 /**************************************************************************************************************************
@@ -43,7 +43,7 @@ EN_cardError_t getCardHolderName(ST_cardData_t* cardData)
 
 EN_cardError_t getCardExpirayDate(ST_cardData_t* cardData) {
 
-	char str[MAX_SIZE] = {}, temp[MAX_SIZE] = {};
+	char str[MAX_SIZE] = "", temp[MAX_SIZE] = "";
 	printf("ENTER EXPIRE DATE IN THIS FORMAT MM/YY : ");
 	fgets(str, MAX_SIZE, stdin);
 	if (strlen(str) != MAX_EXPIRE || str[2] != '/')return WRONG_EXP_DATE;

@@ -8,6 +8,7 @@
 #include "../Card/card.h"
 #include "terminal.h"
 
+#pragma warning(disable : 4996)
 
 /**************************************************************************************************************************
  *                                              Functions Implementation
@@ -129,6 +130,7 @@ EN_terminalError_t getTransactionAmount(ST_terminalData_t* termData) {
 EN_terminalError_t isBelowMaxAmount(ST_terminalData_t *termData )
 {
     EN_terminalError_t LOCAL_returnValue = EXCEED_MAX_ACCOUNT;
+    termData->maxTransAmount = MAX_TRANS_AMOUNT;
     if(termData->transAmount > termData->maxTransAmount)
     {
         LOCAL_returnValue = EXCEED_MAX_ACCOUNT;

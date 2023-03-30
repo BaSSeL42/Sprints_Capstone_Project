@@ -10,6 +10,8 @@
 #include "../Terminal/terminal.h"
 #include "server.h"
 
+#pragma warning(disable : 4996)
+
 /**************************************************************************************************************************
  *                                              Global Variables
 **************************************************************************************************************************/
@@ -140,13 +142,13 @@ EN_serverError_t saveTransaction(ST_transaction_t* transData) {
     uint8_t i;
     for (i = 0; i < 255; i++) {
         if (transactionDB[i].transactionSequenceNumber == 0) {
-            if (i == 0)transData->transactionSequenceNumber = 1;
-            else transData->transactionSequenceNumber = transactionDB[i - 1].transactionSequenceNumber + 1;
+
+            transData->transactionSequenceNumber = i + 1;
             transactionDB[i] = *transData;
             break;
         }
 
-        //listSavedTransactions();
+        listSavedTransactions();
         return SERVER_OK;
     }
 
