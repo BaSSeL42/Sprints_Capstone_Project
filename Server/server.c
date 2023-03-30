@@ -16,9 +16,29 @@ ST_transaction_t transactionDB[255];
 /**************************************************************************************************************************
  *                                              Functions Implementation
 **************************************************************************************************************************/
-EN_transState_t recieveTransactionData(ST_transaction_t *transData)
-{
-    /* ToDo*/
+EN_transState_t recieveTransactionData(ST_transaction_t* transData) {
+
+    EN_serverError_t returnedValue;
+    uint8_t i;
+    returnedValue = isValidAccount(&transData->cardHolderData, accountsDB);
+    if (returnedValue == ACCOUNT_NOT_FOUND)return FRAUD_CARD;
+    returnedValue = isAmountAvailable(&transData->terminalData, accountsDB);
+    if (returnedValue == LOW_BALANCE)return DECLINED_INSUFFECIENT_FUND;
+    returnedValue = isBlockedAccount(accountsDB);
+    if (returnedValue == BLOCKED_ACCOUNT)return DECILINED_STOLEN_CARD;
+    returnedValue = saveTransaction(transData->transState);
+    if (returnedValue == SAVING_FAILED)return INTERNAL_SERVER_ERROR;
+
+    for (i = 0; i < 255; i++) {
+        if (!strcmp(&transData->cardHolderData.primaryAccountNumber, &accountsDB[i].primaryAccountNumber))
+        {
+            accountsDB[i].balance = accountsDB[i].balance - transData->terminalData.transAmount;
+            return SERVER_OK;
+        }
+
+    }
+
+
 }
 
 
@@ -64,9 +84,20 @@ EN_serverError_t isAmountAvailable( ST_terminalData_t *termData, ST_accountsDB_t
 }
 
 
-EN_serverError_t saveTransaction( ST_transaction_t *transData )
-{
-    /* ToDo*/
+EN_serverError_t saveTransaction(ST_transaction_t* transData) {
+    uint8_t i;
+    for (i = 0; i < 255; i++) {
+        if (transactionDB[i].transactionSequenceNumber == 0) {
+            if (i == 0)transData->transactionSequenceNumber = 1;
+            else transData->transactionSequenceNumber = transactionDB[i - 1].transactionSequenceNumber + 1;
+            transactionDB[i] = *transData;
+            break;
+        }
+
+        listSavedTransactions();
+        return SERVER_OK;
+    }
+
 }
 
 
