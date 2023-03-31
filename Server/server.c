@@ -245,43 +245,50 @@ EN_serverError_t loaddb() {
 
 EN_serverError_t savedbAccounts() {
     FILE* fptr;
-    int i;
-    if ((fptr = fopen("accountsdatabase.bin", "wb")) == NULL) {
+    uint8_t i;
+    if ((fptr = fopen("accountsDB.txt", "w")) == NULL) {
         printf("Error! opening file");
 
         // Program exits if the file pointer returns NULL.
         return INTERNAL_SERVER_ERROR;
     }
 
-    for (i = 1; i < 255; ++i)
-
-        fwrite(accountsDB, sizeof(ST_accountsDB_t), 255, fptr);
+    for (i = 0; i < 255; ++i)
+    {
+        /* break when we save last stored value in the array */
+        if (accountsDB[i].balance == 0) break;
+        /* print accounts' data line by line in the database */
+        fprintf(fptr, "%f,%d,%s\n", accountsDB[i].balance, accountsDB[i].state, accountsDB[i].primaryAccountNumber);
+    }
 
     fclose(fptr);
 
     return SERVER_OK;
-
-
 }
 
 EN_serverError_t loaddbAccounts() {
     FILE* fptr;
-    uint8_t i;
+    uint8_t i=0;
+    char buffer[100];
     ST_transaction_t transData;
-    if ((fptr = fopen("accountsdatabase.bin", "rb")) == NULL) {
+
+    if ((fptr = fopen("accountsDB.txt", "r")) == NULL) {
         printf("Error! opening file");
 
-      
         return INTERNAL_SERVER_ERROR;
     }
-    for (i = 0; i < 255; ++i) {
-        fread(accountsDB, sizeof(ST_accountsDB_t), 255, fptr);
-       
+    /* get first line from file */
+    fgets(buffer, 100, fptr);
+    while (!feof(fptr)) {
+        /* scan the buffer into the elements of each accountsDB struct */
+        sscanf(buffer, "%f,%d,%[^\n]", &accountsDB[i].balance, &accountsDB[i].state, accountsDB[i].primaryAccountNumber);
+        fgets(buffer, 100, fptr);
+        i++;
     }
 
-   
     fclose(fptr);
 
+    return SERVER_OK;
 }
 
 

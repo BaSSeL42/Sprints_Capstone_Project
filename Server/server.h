@@ -59,10 +59,10 @@ typedef struct ST_accountsDB_t
 }ST_accountsDB_t; 
 
 #define ACCOUNTS_DB_FIRST_INDEX		0
-#define ACCOUNTS_DB_MAX_SIZE		256
+#define ACCOUNTS_DB_MAX_SIZE		255
 
 #define TRANSACTION_DB_FIRST_INDEX	0
-#define TRANSACTION_DB_MAX_SIZE		256
+#define TRANSACTION_DB_MAX_SIZE		255
 
 /**************************************************************************************************************************
  *                                               Function Prototype
