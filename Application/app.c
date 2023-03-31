@@ -12,9 +12,7 @@
 void appStart(void)
 {
 
-    loaddbAccounts();
-    loaddb();
-    listSavedTransactions();
+   
 	ST_cardData_t client_data;
     ST_terminalData_t client_transactions;
 
@@ -128,7 +126,6 @@ void appStart(void)
         if(Return_serverError == SERVER_OK)
         {
             /* Do Nothing */
-            listSavedTransactions();
         }
         else
         {

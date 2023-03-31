@@ -32,6 +32,9 @@ ST_transaction_t transactionDB[TRANSACTION_DB_MAX_SIZE];
 
 EN_transState_t recieveTransactionData(ST_transaction_t* transData) {
 
+
+    loaddb();
+    loaddbAccounts();
     EN_serverError_t returnedValue;
     ST_accountsDB_t* accountRef=NULL;
     uint8_t i;
