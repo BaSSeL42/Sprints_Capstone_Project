@@ -29,7 +29,7 @@ EN_terminalError_t getTransactionDate( ST_terminalData_t *termData )
         x = atoi(token);
         if ( flag == 0  )
         {
-            if ( x > 0 && x < 31 )
+            if ( x > 0 && x <= 31 )
             {
                 flag = 1;
             }
