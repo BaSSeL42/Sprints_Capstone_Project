@@ -4,6 +4,12 @@
 #ifndef APPLICATION_APP_H_
 #define APPLICATION_APP_H_
 
+
+#include "../Common/STD_types.h"
+#include "../Card/card.h"
+#include "../Terminal/terminal.h"
+#include "../Server/server.h"
+
 /**************************************************************************************************************************
  *                                                  Function Prototype
 **************************************************************************************************************************/

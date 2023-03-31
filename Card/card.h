@@ -4,6 +4,32 @@
 #ifndef CARD_CARD_H_
 #define CARD_CARD_H_
 
+#include <stdio.h>
+#include "../Common/STD_types.h"
+#include <string.h>
+#include <ctype.h>
+#include <stdlib.h>
+
+/**************************************************************************************************************************
+ *                                              		  Macros
+**************************************************************************************************************************/
+#define EXP_DATE_Y_UNITS    4
+#define EXP_DATE_Y_TENS     3
+#define EXP_DATE_M_UNITS    1    
+#define EXP_DATE_M_TENS     0
+
+#define SPACE_ASCII_INDEX   32
+#define A_ASCII_INDEX       65
+#define Z_ASCII_INDEX       90
+#define a_ASCII_INDEX       97
+#define z_ASCII_INDEX       122
+
+#define MAX_SIZE			10
+#define MAX_EXPIRE			6
+#define MAX_MONTH			12
+#define MIN_MONTH			1
+
+
 /**************************************************************************************************************************
  *                                              User Defined Data Type
 **************************************************************************************************************************/
@@ -27,13 +53,16 @@ typedef enum EN_cardError_t
 
 
 /**************************************************************************************************************************
- *                                                  Function Prototype
+ *                                                  Function Prototypes
 **************************************************************************************************************************/
 EN_cardError_t getCardHolderName(ST_cardData_t* cardData);
 EN_cardError_t getCardExpirayDate(ST_cardData_t* cardData);
 EN_cardError_t getCardPan(ST_cardData_t* cardData);
 
-
-
+/**************************************************************************************************************************
+ *                                             Function Prototypes For Testing
+**************************************************************************************************************************/
+void getCardHolderNameTest(void);
+void getCardPanTest(void);
 
 #endif /*CARD_CARD_H_*/

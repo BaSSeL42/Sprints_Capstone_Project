@@ -5,6 +5,18 @@
 #define TERMINAL_TERMINAL_H_
 
 
+
+
+
+/**************************************************************************************************************************
+ *                                              		  Macros
+**************************************************************************************************************************/
+#define TRANS_DATE_Y_UNITS    9
+#define TRANS_DATE_Y_TENS     8
+#define TRANS_DATE_M_UNITS    4    
+#define TRANS_DATE_M_TENS     3
+
+#define MAX_TRANS_AMOUNT      10000
 /**************************************************************************************************************************
  *                                              User Defined Data Type
 **************************************************************************************************************************/
@@ -50,7 +62,9 @@ EN_terminalError_t isValidCardPAN(ST_cardData_t *cardData);
  *                                                  Function Prototype For Testing
 **************************************************************************************************************************/
 void getTransactionDateTest(void);
+void isCardExpiredTest(void);
 void setMaxAmountTest (void);
-
+void isValidCardPANTest(void);
+void isBelowMaxAccountTest(void);
 
 #endif /*TERMINAL_TERMINAL_H_*/

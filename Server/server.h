@@ -6,6 +6,7 @@
 
 
 
+
 /**************************************************************************************************************************
  *                                              User Defined Data Type
 **************************************************************************************************************************/
@@ -57,7 +58,11 @@ typedef struct ST_accountsDB_t
 	
 }ST_accountsDB_t; 
 
+#define ACCOUNTS_DB_FIRST_INDEX		0
+#define ACCOUNTS_DB_MAX_SIZE		255
 
+#define TRANSACTION_DB_FIRST_INDEX	0
+#define TRANSACTION_DB_MAX_SIZE		255
 
 /**************************************************************************************************************************
  *                                               Function Prototype
@@ -70,11 +75,21 @@ EN_serverError_t saveTransaction( ST_transaction_t *transData );
 
 void listSavedTransactions(void);
 
+EN_serverError_t savedb();
+EN_serverError_t loaddb();
+EN_serverError_t savedbAccounts();
+EN_serverError_t loaddbAccounts();
+
 
 
 /**************************************************************************************************************************
  *                                                  Function Prototype For Testing
 **************************************************************************************************************************/
+
+void recieveTransactionDataTest(void);
 void isBlockedAccountTest(void);
+void isAmountAvailableTest(void);
+void isValidAccountTest(void);
+void saveTransactionTest(void);
 
 #endif /*SERVER_SERVER_H_*/
