@@ -34,16 +34,15 @@ EN_transState_t recieveTransactionData(ST_transaction_t* transData) {
 
     EN_serverError_t returnedValue;
     ST_accountsDB_t accountRef;
-    uint8_t i;
 
-    loaddbAccounts();
-    loaddb();
+    loaddbAccounts(); // load accounts from file in AccountsArray
+    loaddb(); // load transactions from file in TransactionsArray
 
     returnedValue = isValidAccount(&transData->cardHolderData, &accountRef);
     if (returnedValue == ACCOUNT_NOT_FOUND) 
     {
         transData->transState = FRAUD_CARD;
-        returnedValue = saveTransaction(transData);
+        returnedValue = saveTransaction(transData); // save transaction
         return FRAUD_CARD;
     } 
 
@@ -51,7 +50,7 @@ EN_transState_t recieveTransactionData(ST_transaction_t* transData) {
     if (returnedValue == LOW_BALANCE)
     {
         transData->transState = DECLINED_INSUFFECIENT_FUND;
-        returnedValue = saveTransaction(transData);
+        returnedValue = saveTransaction(transData); // save transaction
         return DECLINED_INSUFFECIENT_FUND;
     }
 
@@ -59,20 +58,20 @@ EN_transState_t recieveTransactionData(ST_transaction_t* transData) {
     if (returnedValue == BLOCKED_ACCOUNT)
     {
         transData->transState = DECILINED_STOLEN_CARD;
-        returnedValue = saveTransaction(transData);
+        returnedValue = saveTransaction(transData); // save transaction
         return DECILINED_STOLEN_CARD;
     }
 
+    transData->transState = APPROVED; 
+    accountsDB[DB_index].balance -= transData->terminalData.transAmount; // calculate new account balance
+    savedbAccounts(); // save AccountsArray in File
+    returnedValue = saveTransaction(transData); // save transaction
     if (returnedValue == SAVING_FAILED)
     {
         transData->transState = INTERNAL_SERVER_ERROR;
         returnedValue = saveTransaction(transData);
         return INTERNAL_SERVER_ERROR;
     }
-    transData->transState = APPROVED;
-    accountsDB[DB_index].balance -= transData->terminalData.transAmount;
-    savedbAccounts();
-    returnedValue = saveTransaction(transData);
 
     return SERVER_OK;
 }
@@ -159,8 +158,8 @@ EN_serverError_t isAmountAvailable( ST_terminalData_t *termData, ST_accountsDB_t
 EN_serverError_t saveTransaction(ST_transaction_t* transData) {
     uint8_t i;
     
-    for (i = 0; i < 255; i++) {
-        
+    for (i = 0; i < TRANSACTION_DB_MAX_SIZE; i++) {
+        //search for empty index
         if (transactionDB[i].transactionSequenceNumber == 0) {
            
             transData->transactionSequenceNumber = i + 1;
@@ -177,8 +176,8 @@ EN_serverError_t saveTransaction(ST_transaction_t* transData) {
 
        
     }
-    savedb();
-    listSavedTransactions();
+    savedb(); // save new TransactionArray in File
+    listSavedTransactions(); // call list function
     return SERVER_OK;
 
 }
@@ -220,8 +219,9 @@ void listSavedTransactions(void)
 }
 
 EN_serverError_t savedb() {
-    FILE* fptr;
+    FILE* fptr; // create pointer to file
     int i;
+    // try to open file if it is not found create one
     if ((fptr = fopen("transdatabase.bin", "wb")) == NULL) {
         printf("Error! opening file");
 
@@ -229,9 +229,9 @@ EN_serverError_t savedb() {
         return INTERNAL_SERVER_ERROR;
     }
 
-    for(i=1;i<255;++i)
+    for(i=0;i< TRANSACTION_DB_MAX_SIZE;i++)
 
-    fwrite(transactionDB, sizeof(ST_transaction_t),255, fptr);
+    fwrite(transactionDB, sizeof(ST_transaction_t),TRANSACTION_DB_MAX_SIZE, fptr);
 
     fclose(fptr);
 
@@ -249,9 +249,8 @@ EN_serverError_t loaddb() {
         // Program exits if the file pointer returns NULL.
         return INTERNAL_SERVER_ERROR;
     }
-    for(i=0;i<255;++i){
-     fread(transactionDB, sizeof(struct ST_transaction_t), 255, fptr);
-    // printf("%d", transactionDB->transState);
+    for(i=0;i<255;i++){
+     fread(transactionDB, sizeof(struct ST_transaction_t), 255, fptr); // READ from file and store in TransactionArray
 
     }
    
