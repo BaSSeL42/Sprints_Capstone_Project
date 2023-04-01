@@ -113,7 +113,12 @@ EN_serverError_t isValidAccount( ST_cardData_t *cardData,  ST_accountsDB_t *acco
     return LOCAL_returnValue;
 }
 
-
+/**
+ * @author  : Bassel Yasser
+ * @brief   : Check if Account is blocked or not  
+ * @param   : ST_accountsDB_t *accountReference
+ * @return  : EN_serverError_t {SERVER_OK or BLOCKED_ACCOUNT or ACCOUNT_NOT_FOUND}
+*/
 EN_serverError_t isBlockedAccount(ST_accountsDB_t *accountReference)
 {
     EN_serverError_t errorStatus = SERVER_OK;
@@ -185,7 +190,6 @@ EN_serverError_t saveTransaction(ST_transaction_t* transData) {
 
 
 /*
-
 - Description : This Function Print All Transaction In The DB 
 - Paramters   : Void
 - Return	  : Void

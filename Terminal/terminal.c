@@ -13,6 +13,13 @@
 /**************************************************************************************************************************
  *                                              Functions Implementation
 **************************************************************************************************************************/
+/**
+ * @author  : Bassel Yasser
+ * @brief   : Get Transaction date from user
+ * @param   : ST_terminalData_t *termData 
+ * @return  : EN_terminalError_t {TERMINAL_OK or WRONG_DATE}
+*/
+
 EN_terminalError_t getTransactionDate( ST_terminalData_t *termData )
 {
     EN_terminalError_t errorStatus;
@@ -145,7 +152,7 @@ EN_terminalError_t isBelowMaxAmount(ST_terminalData_t *termData )
     if(termData->transAmount > termData->maxTransAmount)
     {
         /* Return EXCEED_MAX_AMOUNT */
-        LOCAL_returnValue = EXCEED_MAX_ACCOUNT;
+        LOCAL_returnValue = EXCEED_MAX_AMOUNT;
     }
     else
     {
@@ -156,6 +163,13 @@ EN_terminalError_t isBelowMaxAmount(ST_terminalData_t *termData )
 }
 
 
+/**
+ * @author  : Bassel Yasser
+ * @brief   : Set Maximum Amount 
+ * @param   : ST_terminalData_t *termData 
+ * @param   : float maxAmount
+ * @return  : EN_terminalError_t {TERMINAL_OK or INVALID_MAX_AMOUNT}
+*/
 EN_terminalError_t setMaxAmount(ST_terminalData_t *termData , float maxAmount)
 {
     EN_terminalError_t errorStatus;
