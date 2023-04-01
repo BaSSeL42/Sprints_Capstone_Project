@@ -3,19 +3,17 @@
 **************************************************************************************************************************/
 #include <stdio.h>
 #include "app.h"
+//#include "../Server/server.h"
 
 /**************************************************************************************************************************
  *                                              Functions Implementation
 **************************************************************************************************************************/
-
+extern ST_accountsDB_t accountsDB[ACCOUNTS_DB_MAX_SIZE];
 
 void appStart(void)
 {
-
-   
 	ST_cardData_t client_data;
     ST_terminalData_t client_transactions;
-
 
     ST_accountsDB_t accountReference;
 
@@ -36,10 +34,11 @@ void appStart(void)
         }
         else
         {
+            printf("Wrong Name!\n");
             break;
         }
         
-        Return_cardError = getCardExpirayDate(&client_data); 
+        Return_cardError = getCardExpiryDate(&client_data);
         
         if(Return_cardError == CARD_OK)
         {
@@ -69,6 +68,7 @@ void appStart(void)
         }
         else
         {
+            printf("Invalid date!\n");
             break;
         }
 
@@ -80,6 +80,7 @@ void appStart(void)
         }
         else
         {
+            printf("Transaction Failed! Card Expired!\n");
             break;
         }
 
@@ -91,6 +92,7 @@ void appStart(void)
         }
         else
         {
+            printf("Invalid PAN! Invalid Card!\n");
             break;
         }
 
@@ -102,6 +104,7 @@ void appStart(void)
         }
         else
         {
+            printf("Invalid amount!\n");
             break;
         }
 
@@ -113,6 +116,7 @@ void appStart(void)
         }
         else
         {
+            printf("Maximum transaction amount exceeded!\n");
             break;
         }
 
@@ -126,6 +130,7 @@ void appStart(void)
         if(Return_serverError == SERVER_OK)
         {
             /* Do Nothing */
+            //listSavedTransactions();
         }
         else
         {

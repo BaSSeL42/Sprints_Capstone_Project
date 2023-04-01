@@ -13,11 +13,12 @@ EN_cardError_t getCardHolderName(ST_cardData_t* cardData)
 {
 	uint8_t size, Local_Iterator=0;
 
+	/* Get name from user */
 	printf("Card Holder Name: ");
 	scanf("%[^\n]%*c", cardData->cardHolderName);
-	printf("%s\n", cardData->cardHolderName);
+	//printf("%s\n", cardData->cardHolderName);
 	
-	/* Check whether the name is within limits */
+	/* Check whether the name length is within limits */
 	size = strlen(cardData->cardHolderName);
 	if (size < 20 || size > 24)
 	{
@@ -41,7 +42,7 @@ EN_cardError_t getCardHolderName(ST_cardData_t* cardData)
 }
 
 
-EN_cardError_t getCardExpirayDate(ST_cardData_t* cardData) {
+EN_cardError_t getCardExpiryDate(ST_cardData_t* cardData) {
 
 	char str[MAX_SIZE] = "", temp[MAX_SIZE] = "";
 	printf("ENTER EXPIRE DATE IN THIS FORMAT MM/YY : ");
@@ -54,12 +55,11 @@ EN_cardError_t getCardExpirayDate(ST_cardData_t* cardData) {
 	token = strtok(str, s);
 	int i = 0;
 	while (token != NULL) {
-		//	printf("\n\n%s\n\n",token);
 		if (i == 0 && (atoi(token) > MAX_MONTH || atoi(token) < MIN_MONTH))return WRONG_EXP_DATE;
 		token = strtok(NULL, s);
 		i++;
 	}
-	//printf("%s----", cardData->cardExpirationDate);
+
 	for (i = 0; i < 6; i++)cardData->cardExpirationDate[i] = temp[i];
 	return CARD_OK;
 
@@ -205,11 +205,11 @@ void getCardHolderNameTest(void)
 	}
 }
 
-void getCardExpirayDateTest(void) {
+void getCardExpiryDateTest(void) {
 
 	ST_cardData_t x;
 	EN_cardError_t returnedval;
-	returnedval = getCardExpirayDate(&x);
+	returnedval = getCardExpiryDate(&x);
 	printf("Tester Name : Sharpel Malak\n");
 	printf("Testcase 5  : user enters wrong format \n");
 	printf("Input data  :  15215\n");

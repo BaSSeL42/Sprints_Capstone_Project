@@ -94,7 +94,7 @@ EN_terminalError_t isCardExpired( ST_cardData_t *cardData, ST_terminalData_t *te
 		{
 			return EXPIRED_CARD;
 		}
-		else if (cardData->cardExpirationDate[EXP_DATE_Y_TENS] == termData->transactionDate[TRANS_DATE_Y_TENS])
+		else if (cardData->cardExpirationDate[EXP_DATE_Y_UNITS] == termData->transactionDate[TRANS_DATE_Y_UNITS])
 		{
 			if (cardData->cardExpirationDate[EXP_DATE_M_TENS] < termData->transactionDate[TRANS_DATE_M_TENS])
 			{
@@ -177,8 +177,10 @@ EN_terminalError_t isValidCardPAN(ST_cardData_t *cardData)
 	uint8_t PAN_length = strlen(cardData->primaryAccountNumber);
 	uint8_t second = 0;
 
+    /* Start from the last element in the PAN */
 	for (LocalIterator = PAN_length-1; LocalIterator >= 0; LocalIterator--)
 	{
+        /* Convert digit from character to integer */
 		char2num = cardData->primaryAccountNumber[LocalIterator] - '0';
 
 		if (second)
@@ -192,10 +194,11 @@ EN_terminalError_t isValidCardPAN(ST_cardData_t *cardData)
 		}
 		
 		PAN_sum += char2num;
-		/* Toggle */
+		/* Toggle to operate on every other element */
 		second ^= 1;
 	}
 
+    /**/
 	if (PAN_sum % 10 != 0) return INVALID_CARD;
 
 	return TERMINAL_OK;
