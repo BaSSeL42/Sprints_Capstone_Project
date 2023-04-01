@@ -360,63 +360,71 @@ void isBlockedAccountTest(void)
 }
 
 
-/*
-Tester Name: Alaa Hisham
-
-Function Name: isAmountAvailable
-*/
-
 void isAmountAvailableTest(void)
 {
 	ST_terminalData_t termData = { 0,0,{0} };
 	ST_accountsDB_t account = { 5000,0,{0} };
 	uint8_t expected, result;
 
-	printf("Testing (isValidCardPAN) function\n\n");
+    printf("Tester Name: Alaa Hisham\n");
+	printf("Function Name: isAmountAvailable\n\n");
+    printf("Balance: 5000\n\n");
 
 	/* Test Case 1: transaction amount more than account balance */
+    printf("Test Case 1: transaction amount more than account balance\n");
 	termData.transAmount = 5000.1;
 	expected = LOW_BALANCE;
+
+    printf("\tInput: %f\n", termData.transAmount);
+    printf("\tExpected result: LOW_BALANCE\n");
 
 	result = isAmountAvailable(&termData, &account);
 
 	if (result == LOW_BALANCE)
 	{
-		printf("Test case 1 passed!\n\n");
+		printf("\tActual result: LOW_BALANCE\n\n");
 	}
 	else
 	{
-		printf("Test case 1 failed!\n\n");
+		printf("\tActual result: SERVER_OK\n\n");
 	}
 
 	/* Test Case 2: transaction amount same as account balance */
+    printf("Test Case 2: transaction amount same as account balance\n");
 	termData.transAmount = 5000;
 	expected = SERVER_OK;
 
+    printf("\tInput: %f\n", termData.transAmount);
+    printf("\tExpected result: SERVER_OK\n");
+
 	result = isAmountAvailable(&termData, &account);
 
 	if (result == SERVER_OK)
 	{
-		printf("Test case 2 passed!\n\n");
+		printf("\tActual result: SERVER_OK!\n\n");
 	}
 	else
 	{
-		printf("Test case 2 failed!\n\n");
+		printf("\tActual result: LOW_BALANCE!\n\n");
 	}
 
 	/* Test Case 3: transaction amount less than account balance  */
+    printf("Test Case 3: transaction amount less than account balance\n");
 	termData.transAmount = 4999.9;
 	expected = SERVER_OK;
+
+    printf("\tInput: %f\n", termData.transAmount);
+    printf("\tExpected result: SERVER_OK\n");
 
 	result = isAmountAvailable(&termData, &account);
 
 	if (result == SERVER_OK)
 	{
-		printf("Test case 3 passed!\n\n");
+        printf("\tActual result: SERVER_OK!\n\n");
 	}
 	else
 	{
-		printf("Test case 3 failed!\n\n");
+        printf("\tActual result: LOW_BALANCE!\n\n");
 	}
 }
 
@@ -488,13 +496,3 @@ void saveTransactionTest(void) {
    
 
 }
-
-/*
-
-    {2000.000,RUNNING,"4342077277183288"},
-    {5000.000,RUNNING,"51102000115511112"},
-    {6600.000,RUNNING,"12345678910111213"},
-    {2550.200,BLOCKED,"12111098765432100"}
-
-
-*/
