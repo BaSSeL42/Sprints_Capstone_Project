@@ -375,22 +375,19 @@ void getTransactionAmountTest(void) {
     ST_terminalData_t Terminal_Data;
     EN_terminalError_t returnedval;
 
-    returnedval = getTransactionAmount(&Terminal_Data);
+    
+   
     printf("Tester Name : Sharpel Malak\n");
-    printf("Testcase 1  : user enters Null \n");
-    printf("Input data  : \n");
-    printf("Expected result : 4\n");
-    printf("Actual result : %d\n", returnedval);
-    returnedval = getTransactionAmount(&Terminal_Data);
-    printf("Tester Name : Sharpel Malak\n");
-    printf("Testcase 2  : user enters zero or less amount \n");
+    printf("Testcase 1  : user enters zero or less amount \n");
     printf("Input data  :  -100\n");
+    returnedval = getTransactionAmount(&Terminal_Data);
     printf("Expected result : 4\n");
     printf("Actual result : %d\n", returnedval);
-    returnedval = getTransactionAmount(&Terminal_Data);
+    
     printf("Tester Name : Sharpel Malak\n");
-    printf("Testcase 3  : user enters postive number \n");
+    printf("Testcase 2  : user enters postive number \n");
     printf("Input data  :  200\n");
+    returnedval = getTransactionAmount(&Terminal_Data);
     printf("Expected result : 0\n");
     printf("Actual result : %d\n", returnedval);
 

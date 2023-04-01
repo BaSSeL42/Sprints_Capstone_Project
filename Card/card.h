@@ -72,6 +72,6 @@ EN_cardError_t getCardPan(ST_cardData_t* cardData);
 **************************************************************************************************************************/
 void getCardHolderNameTest(void);
 void getCardPanTest(void);
-void getCardExpiryDateTest(void)
+void getCardExpiryDateTest(void);
 
 #endif /*CARD_CARD_H_*/

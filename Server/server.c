@@ -444,27 +444,29 @@ void recieveTransactionDataTest(void) {
     ST_transaction_t testCases2 = { {"sherif ashraf mostafa","51102000115511112","05/25"},{1000,MAX_TRANS_AMOUNT,"30/03/2023"}, };
     ST_transaction_t testCases3 = { {"sherif ashraf mostafa","4342077277183288","05/25"},{ 2500,MAX_TRANS_AMOUNT,"30/03/2023"}, };
     EN_serverError_t LOCAL_returnValue;
-
+    LOCAL_returnValue = recieveTransactionData(&testCases1);
     printf("Tester Name : Sharpel Malak \n");
     printf("Test Case 1 : Approved data\n");
     printf("Input Data : {sherif ashraf mostafa,4342077277183288,05/25} ,{ 1000,MAX_TRANS_AMOUNT,30/03/2023}\n");
     printf("Expected Result : 0 \n");
-    LOCAL_returnValue = recieveTransactionData(&testCases1);
+   
     printf("Actual Result : %d\n\n", LOCAL_returnValue);
 ///////////////////////////
+    LOCAL_returnValue = recieveTransactionData(&testCases2);
     printf("Tester Name : Sharpel Malak \n");
     printf("Test Case 2 : Stolen Card\n");
     printf("Input Data : {sherif ashraf mostafa,51102000115511112,05/25} ,{ 1000,MAX_TRANS_AMOUNT,30/03/2023}\n");
     printf("Expected Result : 2 \n");
-    LOCAL_returnValue = recieveTransactionData(&testCases2);
+   
     printf("Actual Result : %d\n", LOCAL_returnValue);
 
     ///////////////////////////
+    LOCAL_returnValue = recieveTransactionData(&testCases3);
     printf("Tester Name : Sharpel Malak \n");
     printf("Test Case 3 : Low balance\n");
     printf("Input Data : {sherif ashraf mostafa,4342077277183288,05/25} ,{ 2500,MAX_TRANS_AMOUNT,30/03/2023}\n");
     printf("Expected Result :1 \n");
-    LOCAL_returnValue = recieveTransactionData(&testCases3);
+   
     printf("Actual Result : %d\n", LOCAL_returnValue);
 
 

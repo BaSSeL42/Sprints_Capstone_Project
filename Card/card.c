@@ -230,34 +230,39 @@ void getCardExpiryDateTest(void) {
 
 	ST_cardData_t x;
 	EN_cardError_t returnedval;
-	returnedval = getCardExpiryDate(&x);
+	
 	printf("Tester Name : Sharpel Malak\n");
 	printf("Testcase 1  : check if input is null \n");
 	printf("Input data  : \n");
+	returnedval = getCardExpiryDate(&x);
 	printf("Expected result : 2\n");
 	printf("Actual result : %d\n", returnedval);
-	returnedval = getCardExpiryDate(&x);
+	
 	printf("Tester Name : Sharpel Malak\n");
 	printf("Testcase 2  : user enters less than 5 characters \n");
 	printf("Input data  :  11/2\n");
+	returnedval = getCardExpiryDate(&x);
 	printf("Expected result : 2\n");
 	printf("Actual result : %d\n", returnedval);
-	returnedval = getCardExpiryDate(&x);
+	
 	printf("Tester Name : Sharpel Malak\n");
 	printf("Testcase 3  : user enters more than 5 characters \n");
 	printf("Input data  :  152/55\n");
+	returnedval = getCardExpiryDate(&x);
 	printf("Expected result : 2\n");
 	printf("Actual result : %d\n", returnedval);
-	returnedval = getCardExpiryDate(&x);
+	
 	printf("Tester Name : Sharpel Malak\n");
 	printf("Testcase 4  : user enters wrong format and invalid month \n");
 	printf("Input data  :  15/15\n");
+	returnedval = getCardExpiryDate(&x);
 	printf("Expected result : 2\n");
 	printf("Actual result : %d\n", returnedval);
-	returnedval = getCardExpiryDate(&x);
+	
 	printf("Tester Name : Sharpel Malak\n");
 	printf("Testcase 5  : user right format \n");
 	printf("Input data  :  11/25\n");
+	returnedval = getCardExpiryDate(&x);
 	printf("Expected result : 0\n");
 	printf("Actual result : %d\n", returnedval);
 
