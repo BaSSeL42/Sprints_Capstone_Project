@@ -13,40 +13,33 @@
 #pragma warning(disable : 4996)
 
 /**************************************************************************************************************************
- *       {10000.000,RUNNING,"4342077277183288"},
-    {5000.000,RUNNING,"51102000115511112"},
-    {6600.000,RUNNING,"12345678910111213"},
-    {2550.200,BLOCKED,"12111098765432100"}     
- 
- 
- 
- 
- Global Variables
+ *                                                   Global Variables
 **************************************************************************************************************************/
 ST_accountsDB_t accountsDB[ACCOUNTS_DB_MAX_SIZE];
 
 ST_transaction_t transactionDB[TRANSACTION_DB_MAX_SIZE];
+
+char* TransactionStates[5] = { "APPROVED", 
+                               "DECLINED_INSUFFECIENT_FUND",
+                               "DECILINED_STOLEN_CARD",
+                               "FRAUD_CARD",
+                               "INTERNAL_SERVER_ERROR" };
+
+uint8_t DB_index = 0;
 /**************************************************************************************************************************
  *                                              Functions Implementation
 **************************************************************************************************************************/
 
 EN_transState_t recieveTransactionData(ST_transaction_t* transData) {
 
-
-    loaddb();
-    loaddbAccounts();
     EN_serverError_t returnedValue;
-    ST_accountsDB_t* accountRef=NULL;
+    ST_accountsDB_t accountRef;
     uint8_t i;
-    for (i = 0; i < 255; i++) {
-        if (!strcmp(transData->cardHolderData.primaryAccountNumber, accountsDB[i].primaryAccountNumber))
-        {
-            accountRef = &accountsDB[i];
-            break;
-        }
 
-    }
-    returnedValue = isValidAccount(&transData->cardHolderData, accountRef);
+    loaddbAccounts();
+    loaddb();
+
+    returnedValue = isValidAccount(&transData->cardHolderData, &accountRef);
     if (returnedValue == ACCOUNT_NOT_FOUND) 
     {
         transData->transState = FRAUD_CARD;
@@ -54,7 +47,7 @@ EN_transState_t recieveTransactionData(ST_transaction_t* transData) {
         return FRAUD_CARD;
     } 
 
-    returnedValue = isAmountAvailable(&transData->terminalData, accountRef);
+    returnedValue = isAmountAvailable(&transData->terminalData, &accountRef);
     if (returnedValue == LOW_BALANCE)
     {
         transData->transState = DECLINED_INSUFFECIENT_FUND;
@@ -62,7 +55,7 @@ EN_transState_t recieveTransactionData(ST_transaction_t* transData) {
         return DECLINED_INSUFFECIENT_FUND;
     }
 
-    returnedValue = isBlockedAccount(accountRef);
+    returnedValue = isBlockedAccount(&accountRef);
     if (returnedValue == BLOCKED_ACCOUNT)
     {
         transData->transState = DECILINED_STOLEN_CARD;
@@ -77,9 +70,8 @@ EN_transState_t recieveTransactionData(ST_transaction_t* transData) {
         return INTERNAL_SERVER_ERROR;
     }
     transData->transState = APPROVED;
-    accountRef->balance -= transData->terminalData.transAmount;
+    accountsDB[DB_index].balance -= transData->terminalData.transAmount;
     savedbAccounts();
-    //printf("\n--- new balance : %f\n", accountRef->balance);
     returnedValue = saveTransaction(transData);
 
     return SERVER_OK;
@@ -89,11 +81,13 @@ EN_serverError_t isValidAccount( ST_cardData_t *cardData,  ST_accountsDB_t *acco
 {
     EN_serverError_t LOCAL_returnValue = ACCOUNT_NOT_FOUND;
     uint32_t LOCAL_dataBaseLoopCounter;
-    for(LOCAL_dataBaseLoopCounter = ACCOUNTS_DB_FIRST_INDEX ; LOCAL_dataBaseLoopCounter <= ACCOUNTS_DB_MAX_SIZE ; LOCAL_dataBaseLoopCounter++)
+    for(LOCAL_dataBaseLoopCounter = ACCOUNTS_DB_FIRST_INDEX ; LOCAL_dataBaseLoopCounter < ACCOUNTS_DB_MAX_SIZE ; LOCAL_dataBaseLoopCounter++)
     {
         if(!strcmp((cardData->primaryAccountNumber),(accountsDB[LOCAL_dataBaseLoopCounter].primaryAccountNumber)))
         {
-            *accountReference = accountsDB[LOCAL_dataBaseLoopCounter];
+            //accountReference = &accountsDB[LOCAL_dataBaseLoopCounter];
+            DB_index = LOCAL_dataBaseLoopCounter;
+            memcpy((void*)accountReference, &accountsDB[LOCAL_dataBaseLoopCounter], sizeof(ST_accountsDB_t));
             LOCAL_returnValue = SERVER_OK;
             break;
         }
@@ -188,7 +182,7 @@ void listSavedTransactions(void)
             printf("Transaction Sequence Number : %d \n",transactionDB[LOCAL_dataBaseLoopCounter].transactionSequenceNumber);
             printf("Transaction Date            : %s \n",transactionDB[LOCAL_dataBaseLoopCounter].terminalData.transactionDate);
             printf("Transaction Amount          : %f \n",transactionDB[LOCAL_dataBaseLoopCounter].terminalData.transAmount);
-            printf("Transaction State           : %d \n",transactionDB[LOCAL_dataBaseLoopCounter].transState);
+            printf("Transaction State           : %s \n",TransactionStates[transactionDB[LOCAL_dataBaseLoopCounter].transState]);
             printf("Terminal Max Amount         : %f \n",transactionDB[LOCAL_dataBaseLoopCounter].terminalData.maxTransAmount);
             printf("Cardholder Name             : %s \n",transactionDB[LOCAL_dataBaseLoopCounter].cardHolderData.cardHolderName);
             printf("PAN                         : %s \n",transactionDB[LOCAL_dataBaseLoopCounter].cardHolderData.primaryAccountNumber);

@@ -56,7 +56,7 @@ typedef enum EN_cardError_t
  *                                                  Function Prototypes
 **************************************************************************************************************************/
 EN_cardError_t getCardHolderName(ST_cardData_t* cardData);
-EN_cardError_t getCardExpirayDate(ST_cardData_t* cardData);
+EN_cardError_t getCardExpiryDate(ST_cardData_t* cardData);
 EN_cardError_t getCardPan(ST_cardData_t* cardData);
 
 /**************************************************************************************************************************
