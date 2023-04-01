@@ -431,18 +431,45 @@ void isAmountAvailableTest(void)
 
 void isValidAccountTest(void)
 {
-    ST_cardData_t testCase1 = {"sherif ashraf","51102000115511100","05/25"};
+    loaddbAccounts();
+    ST_cardData_t testCase1 = {"sherif ashraf","4417123456789113","05/25"};
+    ST_cardData_t testCase2 = {"sherif ashraf","51111100","05/25" };
     EN_serverError_t LOCAL_returnValue;
     ST_accountsDB_t LOCAL_returnAccountReffrence;
     printf("Tester Name : Sherif Ashraf \n");
-    printf("Test Case 1 : \n");
-    printf("Input Data : {sherif ashraf,51102000115511100,05/25} \n");
-    printf("Expected Result : \nPrimary Account Number : 51102000115511100 \nState : 0 \nBalance : 2000.00 \n \n");
+    printf("Test Case 1 : Account Is Valid \n");
+    printf("Input Data : {sherif ashraf,4342077277183288,05/25} \n");
+    printf("Expected Result : SERVER_OK \n");
+    //printf("\nPrimary Account Number : 4342077277183288 \nState : 0 \nBalance : 2000.00 \n \n");
     LOCAL_returnValue = isValidAccount(&testCase1,&LOCAL_returnAccountReffrence);
-    printf("Actual Result : %d\n",LOCAL_returnValue);
-    printf("Primary Account Number : %s \n",LOCAL_returnAccountReffrence.primaryAccountNumber);
-    printf("State : %d \n",LOCAL_returnAccountReffrence.state);
-    printf("Balance : %.2f \n",LOCAL_returnAccountReffrence.balance);
+    if (LOCAL_returnValue == SERVER_OK)
+    {
+        printf("Actual Result : SERVER_OK \n");
+        printf("Primary Account Number : %s \n", LOCAL_returnAccountReffrence.primaryAccountNumber);
+        printf("State : %d \n", LOCAL_returnAccountReffrence.state);
+        printf("Balance : %.2f \n", LOCAL_returnAccountReffrence.balance);
+    }
+    else if (LOCAL_returnValue == ACCOUNT_NOT_FOUND)
+    {
+        printf("Actual Result : ACCOUNT_NOT_FOUND \n");
+    }
+    printf("Tester Name : Sherif Ashraf \n");
+    printf("Test Case 2 : Account Is Not Valid \n");
+    printf("Input Data : {sherif ashraf,51111100,05/25} \n");
+    printf("Expected Result : ACCOUNT_NOT_FOUND \n");
+   // printf("\nPrimary Account Number : 51111100 \nState : 0 \nBalance : 2000.00 \n \n");
+    LOCAL_returnValue = isValidAccount(&testCase2,&LOCAL_returnAccountReffrence);
+    if (LOCAL_returnValue == SERVER_OK)
+    {
+        printf("Actual Result : SERVER_OK \n");
+        printf("Primary Account Number : %s \n", LOCAL_returnAccountReffrence.primaryAccountNumber);
+        printf("State : %d \n", LOCAL_returnAccountReffrence.state);
+        printf("Balance : %.2f \n", LOCAL_returnAccountReffrence.balance);
+    }
+    else if (LOCAL_returnValue == ACCOUNT_NOT_FOUND)
+    {
+        printf("Actual Result : ACCOUNT_NOT_FOUND \n");
+    }
 }
 
 
