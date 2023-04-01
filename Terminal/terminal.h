@@ -36,7 +36,7 @@ typedef enum EN_terminalError_t
     EXPIRED_CARD,
     INVALID_CARD,
     INVALID_AMOUNT,
-    EXCEED_MAX_ACCOUNT,
+    EXCEED_MAX_AMOUNT,
     INVALID_MAX_AMOUNT
 	
 }EN_terminalError_t;
@@ -66,5 +66,6 @@ void isCardExpiredTest(void);
 void setMaxAmountTest (void);
 void isValidCardPANTest(void);
 void isBelowMaxAccountTest(void);
+void getTransactionAmountTest(void);
 
 #endif /*TERMINAL_TERMINAL_H_*/
