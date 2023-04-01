@@ -141,11 +141,11 @@ void appStart(void)
         break;
     }
 
-    /*
-    getCardHolderNameTest();
-    getCardExpiryDateTest();
-    getCardPanTest();
-    getTransactionDateTest();
+    
+   /* getCardHolderNameTest();
+    getCardExpiryDateTest();*/
+    /*getCardPanTest();*/
+   /* getTransactionDateTest();
     isCardExpiredTest();
     setMaxAmountTest();
     isValidCardPANTest();
@@ -154,9 +154,9 @@ void appStart(void)
     recieveTransactionDataTest();
     isBlockedAccountTest();
     isAmountAvailableTest();
-    isValidAccountTest();
-    saveTransactionTest()
-    */
+    isValidAccountTest();*/
+   // saveTransactionTest();
+    
 
 
 }

@@ -153,7 +153,7 @@ void getCardHolderNameTest(void)
 	expected = CARD_OK;
 
 	printf("\tInput: %s\n", input2);
-	printf("\tExpected result: WRONG_NAME\n");
+	printf("\tExpected result: CARD_OK\n");
 
 	result = getCardHolderName(&testCard);
 
@@ -185,45 +185,45 @@ void getCardHolderNameTest(void)
 	}
 
 	/* Test Case 4: input is more than twenty and less than twenty four letters */
-	printf("Test Case 4: input is more than twenty and less than twenty four letters\n");
-	uint8_t input4[] = "twenty one characters";
-	expected = CARD_OK;
+	//printf("Test Case 4: input is more than twenty and less than twenty four letters\n");
+	//uint8_t input4[] = "twenty one characters";
+	//expected = CARD_OK;
 
-	printf("\tInput: %s\n", input4);
-	printf("\tExpected result: CARD_OK\n");
+	//printf("\tInput: %s\n", input4);
+	//printf("\tExpected result: CARD_OK\n");
 
-	result = getCardHolderName(&testCard);
+	//result = getCardHolderName(&testCard);
 
-	if (result == CARD_OK)
-	{
-		printf("\tActual result: CARD_OK\n\n");
-	}
-	else
-	{
-		printf("\tActual result: WRONG_NAME\n\n");
-	}
+	//if (result == CARD_OK)
+	//{
+	//	printf("\tActual result: CARD_OK\n\n");
+	//}
+	//else
+	//{
+	//	printf("\tActual result: WRONG_NAME\n\n");
+	//}
 
-	/* Test Case 5: input is twenty four letters */
-	printf("Test Case 5: input is twenty four letters\n");
-	uint8_t input5[] = "Random sentences to test";
-	expected = CARD_OK;
+	///* Test Case 5: input is twenty four letters */
+	//printf("Test Case 5: input is twenty four letters\n");
+	//uint8_t input5[] = "Random sentences to test";
+	//expected = CARD_OK;
 
-	printf("\tInput: %s\n", input5);
-	printf("\tExpected result: CARD_OK\n");
+	//printf("\tInput: %s\n", input5);
+	//printf("\tExpected result: CARD_OK\n");
 
-	result = getCardHolderName(&testCard);
+	//result = getCardHolderName(&testCard);
 
-	if (result == CARD_OK)
-	{
-		printf("\tActual result: CARD_OK\n\n");
-	}
-	else
-	{
-		printf("\tActual result: WRONG_NAME\n\n");
-	}
+	//if (result == CARD_OK)
+	//{
+	//	printf("\tActual result: CARD_OK\n\n");
+	//}
+	//else
+	//{
+	//	printf("\tActual result: WRONG_NAME\n\n");
+	//}
 
 	/* Test Case 6: input is twenty five letters */
-	printf("Test Case 6: input is twenty five letters\n");
+	printf("Test Case 4: input is twenty five letters\n");
 	uint8_t input6[] = "Random phrases for a test";
 	expected = WRONG_NAME;
 

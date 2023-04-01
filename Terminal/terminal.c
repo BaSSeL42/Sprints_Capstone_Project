@@ -491,19 +491,19 @@ void isValidCardPANTest(void)
 
 void isBelowMaxAccountTest(void)
 {
-    ST_terminalData_t testCase1 = {500,1000,"temp"};
-    ST_terminalData_t testCase2 = {1000,500,"temp"};
+    ST_terminalData_t testCase1 = {500,10000,"temp"};
+    ST_terminalData_t testCase2 = {11000,10000,"temp"};
     EN_terminalError_t LOCAL_returnValue;
 
     printf("Tester Name : Sherif Ashraf \n");
     printf("Test Case 1 : \n");
-    printf("Input Data : transAmount = 500 , maxAccount = 1000 \n");
+    printf("Input Data : transAmount = 500 , maxAccount = 10000 \n");
     printf("Expected Result : 0 \n");
     LOCAL_returnValue = isBelowMaxAmount(&testCase1);
     printf("Actual Result : %d \n",LOCAL_returnValue);
     printf("Tester Name : Sherif Ashraf \n");
     printf("Test Case 2 : \n");
-    printf("Input Data : transAmount = 1000 , maxAccount = 500 \n");
+    printf("Input Data : transAmount = 11000 , maxAccount = 10000 \n");
     printf("Expected Result : 5 \n");
     LOCAL_returnValue = isBelowMaxAmount(&testCase2);
     printf("Actual Result : %d \n",LOCAL_returnValue);

@@ -226,7 +226,7 @@ EN_serverError_t savedb() {
     FILE* fptr; // create pointer to file
     int i;
     // try to open file if it is not found create one
-    if ((fptr = fopen("transdatabase.bin", "wb")) == NULL) {
+    if ((fptr = fopen("transdatabase.txt", "wb")) == NULL) {
         printf("Error! opening file");
 
         // Program exits if the file pointer returns NULL.
@@ -247,7 +247,7 @@ EN_serverError_t loaddb() {
     FILE* fptr;
     uint8_t i;
     ST_transaction_t transData;
-    if ((fptr = fopen("transdatabase.bin", "rb")) == NULL) {
+    if ((fptr = fopen("transdatabase.txt", "rb")) == NULL) {
         printf("Error! opening file");
 
         // Program exits if the file pointer returns NULL.
