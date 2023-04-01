@@ -126,17 +126,30 @@ EN_terminalError_t getTransactionAmount(ST_terminalData_t* termData) {
 
 }
 
+/*
 
+- Description : This Function Compare The Transaction Amount With The Max Allowed Terminal Amount
+- Paramters   : It Take One Paramter From ST_terminalData_t Data Type
+- Return	  : It Return EN_terminalError_t Data Type
+                Terminal_OK If Every Thing Is Ok
+                EXCEED_MAX_ACCOUNT If PAN Number Cant Pass The Checker
+*/
 EN_terminalError_t isBelowMaxAmount(ST_terminalData_t *termData )
 {
-    EN_terminalError_t LOCAL_returnValue = EXCEED_MAX_ACCOUNT;
+    EN_terminalError_t LOCAL_returnValue = EXCEED_MAX_AMOUNT;
+
+    /*  Set The Max Amount Of The Transaction With The Terminal Max Amount*/
     termData->maxTransAmount = MAX_TRANS_AMOUNT;
+
+    /* Check If The Transaction Amount Greater Than The Max Transaction Amount */
     if(termData->transAmount > termData->maxTransAmount)
     {
+        /* Return EXCEED_MAX_AMOUNT */
         LOCAL_returnValue = EXCEED_MAX_ACCOUNT;
     }
     else
     {
+        /* Else Return TERMINAL_OK */
         LOCAL_returnValue = TERMINAL_OK;
     }
     return LOCAL_returnValue;

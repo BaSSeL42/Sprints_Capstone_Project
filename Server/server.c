@@ -77,22 +77,36 @@ EN_transState_t recieveTransactionData(ST_transaction_t* transData) {
     return SERVER_OK;
 }
 
+
+/*
+
+- Description : This Function Take The Pan And Validate If The Account Exist In Server DB Or Not
+- Paramters   : It Take Two Paramter From ST_cardData_t Data Type And ST_accountsDB_t Data Type
+- Return	  : It Return EN_serverError_t Data Type
+                SERVER_OK If Every Thing Is Ok
+                ACCOUNT_NOT_FOUND If PAN Number Not Exist In The DB
+*/
+
 EN_serverError_t isValidAccount( ST_cardData_t *cardData,  ST_accountsDB_t *accountReference)
 {
     EN_serverError_t LOCAL_returnValue = ACCOUNT_NOT_FOUND;
     uint32_t LOCAL_dataBaseLoopCounter;
+
+    /*Loop Until The End Of The DB */
     for(LOCAL_dataBaseLoopCounter = ACCOUNTS_DB_FIRST_INDEX ; LOCAL_dataBaseLoopCounter < ACCOUNTS_DB_MAX_SIZE ; LOCAL_dataBaseLoopCounter++)
     {
+        /* Check The PAN Of All Index Until Found Account Related To The PAN */
         if(!strcmp((cardData->primaryAccountNumber),(accountsDB[LOCAL_dataBaseLoopCounter].primaryAccountNumber)))
         {
-            //accountReference = &accountsDB[LOCAL_dataBaseLoopCounter];
+            /* Assign The Index Of The Account*/
             DB_index = LOCAL_dataBaseLoopCounter;
+            /* Copy Account In A Reference */
             memcpy((void*)accountReference, &accountsDB[LOCAL_dataBaseLoopCounter], sizeof(ST_accountsDB_t));
-            LOCAL_returnValue = SERVER_OK;
+            LOCAL_returnValue = SERVER_OK; /* Return SERVER_OK */
             break;
         }
     }
-    if(LOCAL_returnValue == ACCOUNT_NOT_FOUND)
+    if(LOCAL_returnValue == ACCOUNT_NOT_FOUND)/* If ACCOUNT_NOT_FOUND Set The Refference With NULL */
     {
         accountReference = NULL;
     }
@@ -170,12 +184,21 @@ EN_serverError_t saveTransaction(ST_transaction_t* transData) {
 }
 
 
+/*
+
+- Description : This Function Print All Transaction In The DB 
+- Paramters   : Void
+- Return	  : Void
+*/
+
 void listSavedTransactions(void)
 {
    
     uint32_t LOCAL_dataBaseLoopCounter; 
+
+    /* Loop Until The End Of The Transaction DB*/
     for(LOCAL_dataBaseLoopCounter = TRANSACTION_DB_FIRST_INDEX;LOCAL_dataBaseLoopCounter <= TRANSACTION_DB_MAX_SIZE ; LOCAL_dataBaseLoopCounter++)
-    {
+    { /* If The Transaction Sequance Number Not Equal Zero Print All Transaction Data  */
         if(transactionDB[LOCAL_dataBaseLoopCounter].transactionSequenceNumber != 0)
         {
             printf("######################################### \n\n");
@@ -190,7 +213,7 @@ void listSavedTransactions(void)
             printf("######################################### \n\n");
         }
         else
-        {
+        { /* Else Break */
             break;
         }
     }

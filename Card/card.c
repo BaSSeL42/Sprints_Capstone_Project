@@ -65,30 +65,46 @@ EN_cardError_t getCardExpiryDate(ST_cardData_t* cardData) {
 
 }
 
+/*
+
+- Description : This Function Ask User To Enter His PAN Number And Check It Then Store It In The Card Data
+- Paramters   : It Take One Paramter From ST_cardData_t Data Type 
+- Return	  : It Return EN_cardError_t Data Type 
+				CARD_OK If Every Thing Is Ok
+				WRONG_PAN If PAN Number Cant Pass The Checker
+*/
 
 EN_cardError_t getCardPan(ST_cardData_t* cardData)
 {
 	EN_cardError_t LOCAL_returnValue = WRONG_PAN;
-	uint8_t LOCAL_checkPan[20] = "NULL";
+	uint8_t LOCAL_checkPan[PAN_ARRAY_MAX_SIZE] = "NULL";
 	uint8_t LOCAL_counter,LOCAL_flag = 0;
+
+	/* Scan PAN From User */
 	printf("Please Enter Your Primary Account Number \n");
 	scanf("%s",LOCAL_checkPan);
 
+	/*Loop Until The End Of The String*/
 	for(uint8_t LOCAL_counter = 0 ; LOCAL_counter < strlen(LOCAL_checkPan);LOCAL_counter++)
 	{
+		/* Check That All Index Is Digits */
 		if(isdigit(LOCAL_checkPan[LOCAL_counter]))
 		{
+			/* Increment Flag With One To Compare Number Of Digits In The Array With It All Elemant*/
 			LOCAL_flag++;
 		}
 	}
-
-	if( (strlen(LOCAL_checkPan) == '\n') || (strlen(LOCAL_checkPan) < 16 ) || (strlen(LOCAL_checkPan) > 19) 
+	/* Check If The String Length Not Equal Null Or Smaller Than Min Size Or Gearter Than Max Size And 
+	   LOCAL_FLAG Not Equal String Length */
+	if( (strlen(LOCAL_checkPan) == NULL ) || (strlen(LOCAL_checkPan) < PAN_MIN_SIZE) || (strlen(LOCAL_checkPan) > PAN_MAX_SIZE)
 		 || (LOCAL_flag != (strlen(LOCAL_checkPan))))
 	{
+		/* Return WRONG_PAN */
 		LOCAL_returnValue = WRONG_PAN;
 	}
 	else
 	{
+		/* Else Return CARD_OK Then Copy PAN To cardData Struct  */
 		LOCAL_returnValue = CARD_OK;
 		strcpy(cardData->primaryAccountNumber,LOCAL_checkPan);
 	}
