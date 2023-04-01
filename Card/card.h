@@ -32,7 +32,7 @@
 #define FORWARD_SLASH_INDEX         2
 #define ZERO                        0
 
-#define PAN_ARRAY_MAX_SIZE			20
+#define PAN_ARRAY_MAX_SIZE			50
 #define PAN_MAX_SIZE				19
 #define PAN_MIN_SIZE				16
 

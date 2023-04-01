@@ -65,7 +65,7 @@ void getTransactionDateTest(void);
 void isCardExpiredTest(void);
 void setMaxAmountTest (void);
 void isValidCardPANTest(void);
-void isBelowMaxAccountTest(void);
+void isBelowMaxAmountTest(void);
 void getTransactionAmountTest(void);
 
 #endif /*TERMINAL_TERMINAL_H_*/

@@ -489,23 +489,39 @@ void isValidCardPANTest(void)
 
 }
 
-void isBelowMaxAccountTest(void)
+void isBelowMaxAmountTest(void)
 {
     ST_terminalData_t testCase1 = {500,10000,"temp"};
     ST_terminalData_t testCase2 = {11000,10000,"temp"};
     EN_terminalError_t LOCAL_returnValue;
 
+    printf("=========================================== \n\n");
     printf("Tester Name : Sherif Ashraf \n");
-    printf("Test Case 1 : \n");
+    printf("Test Case 1 : TransAmount Less Than The Max Amount \n");
     printf("Input Data : transAmount = 500 , maxAccount = 10000 \n");
-    printf("Expected Result : 0 \n");
+    printf("Expected Result : TERMINAL_OK \n");
     LOCAL_returnValue = isBelowMaxAmount(&testCase1);
-    printf("Actual Result : %d \n",LOCAL_returnValue);
+    if (LOCAL_returnValue == TERMINAL_OK)
+    {
+        printf("Actual Result : TERMINAL_OK \n");
+    }
+    else if(LOCAL_returnValue == EXCEED_MAX_AMOUNT)
+    {
+        printf("Actual Result : EXCEED_MAX_AMOUNT \n");
+    }
+    printf("=========================================== \n\n");
     printf("Tester Name : Sherif Ashraf \n");
-    printf("Test Case 2 : \n");
+    printf("Test Case 2 : TransAmount More Than The Max Amount\n");
     printf("Input Data : transAmount = 11000 , maxAccount = 10000 \n");
-    printf("Expected Result : 5 \n");
+    printf("Expected Result : EXCEED_MAX_AMOUNT \n");
     LOCAL_returnValue = isBelowMaxAmount(&testCase2);
-    printf("Actual Result : %d \n",LOCAL_returnValue);
-
+    if(LOCAL_returnValue == TERMINAL_OK)
+    {
+        printf("Actual Result : TERMINAL_OK \n");
+    }
+    else if(LOCAL_returnValue == EXCEED_MAX_AMOUNT)
+    {
+        printf("Actual Result : EXCEED_MAX_AMOUNT \n");
+    }
+    printf("=========================================== \n\n");
 }

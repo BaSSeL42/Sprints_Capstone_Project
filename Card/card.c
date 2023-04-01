@@ -286,34 +286,57 @@ void getCardExpiryDateTest(void) {
 
 void getCardPanTest(void)
 {
-	 ST_cardData_t testCase1 =  {"temp","temp","temp"};
-	 ST_cardData_t testCase2 =  {"temp","temp","temp"};
-	 ST_cardData_t testCase3 = {"temp","temp","temp"};
-	 EN_cardError_t LOCAL_returnValue;
+	ST_cardData_t testCase1 = { "temp_name","temp_pan","date" };
+	ST_cardData_t testCase2 = { "temp_name","temp_pan","date" };
+	ST_cardData_t testCase3 = { "temp_name","temp_pan","date" };
+	EN_cardError_t LOCAL_returnValue;
+	printf("=========================================== \n\n");
 	printf("Tester Name : Sherif Ashraf \n");
-	printf("Test Case 1 : \n");
+	printf("Test Case 1 : User Enter Right PAN  \n");
 	printf("Input Data : 51102000115511100 \n");
-	printf("Expected Result : 0 \n");
-	printf("Current primary Account Number : %s \n",testCase1.primaryAccountNumber);
+	printf("Expected Result : CARD_OK \n");
+	printf("Current primary Account Number : %s \n", testCase1.primaryAccountNumber);
 	LOCAL_returnValue = getCardPan(&testCase1);
-	printf("Actual Result : %d \n",LOCAL_returnValue);
-	printf("Stored primary Account Number : %s \n",testCase1.primaryAccountNumber);
-
+	if (LOCAL_returnValue == CARD_OK)
+	{
+		printf("Actual Result : CARD_OK \n");
+	}
+	else if (LOCAL_returnValue == WRONG_PAN)
+	{
+		printf("Actual Result : WRONG_PAN \n");
+	}
+	printf("New primary Account Number : %s \n", testCase1.primaryAccountNumber);
+	printf("=========================================== \n\n");
 	printf("\n\nTester Name : Sherif Ashraf \n");
-	printf("Test Case 2 : \n");
+	printf("Test Case 2 : User Enter PAN Less Than 16 Digit \n");
 	printf("Input Data : 11020001155 \n");
-	printf("Expected Result : 3 \n");
-	printf("Current primary Account Number : %s \n",testCase2.primaryAccountNumber);
+	printf("Expected Result : WRONG_PAN \n");
+	printf("Current primary Account Number : %s \n", testCase2.primaryAccountNumber);
 	LOCAL_returnValue = getCardPan(&testCase2);
-	printf("Actual Result : %d \n",LOCAL_returnValue);
-	printf("Stored primary Account Number : %s \n",testCase2.primaryAccountNumber);
-
+	if (LOCAL_returnValue == CARD_OK)
+	{
+		printf("Actual Result : CARD_OK \n");
+	}
+	else if (LOCAL_returnValue == WRONG_PAN)
+	{
+		printf("Actual Result : WRONG_PAN \n");
+	}
+	printf("No primary Account Number Will Be Stored : %s \n", testCase2.primaryAccountNumber);
+	printf("=========================================== \n\n");
 	printf("\n\nTester Name : Sherif Ashraf \n");
-	printf("Test Case 3 : \n");
+	printf("Test Case 3 : User Enter PAN Greater Than 20 Digit \n");
 	printf("Input Data : 51102000115511100547862 \n");
-	printf("Expected Result : 3 \n");
-	printf("Current primary Account Number : %s \n",testCase3.primaryAccountNumber);
+	printf("Expected Result : WRONG_PAN \n");
+	printf("Current primary Account Number : %s \n", testCase3.primaryAccountNumber);
 	LOCAL_returnValue = getCardPan(&testCase3);
-	printf("Actual Result : %d \n",LOCAL_returnValue);
-	printf("Stored primary Account Number : %s \n",testCase3.primaryAccountNumber);
+	if (LOCAL_returnValue == CARD_OK)
+	{
+		printf("Actual Result : CARD_OK \n");
+	}
+	else if (LOCAL_returnValue == WRONG_PAN)
+	{
+		printf("Actual Result : WRONG_PAN \n");
+	}
+	printf("No primary Account Number Will Be Stored : %s \n", testCase3.primaryAccountNumber);
+	printf("=========================================== \n\n");
 }
