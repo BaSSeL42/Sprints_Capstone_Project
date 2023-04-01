@@ -25,13 +25,18 @@
 #define z_ASCII_INDEX				122
 
 #define MAX_SIZE					10
-#define MAX_EXPIRE					6
-#define MAX_MONTH					12
-#define MIN_MONTH					1
+#define MAX_EXPIRY			        6
+#define MAX_MONTH			        12
+#define MIN_MONTH			        1
+
+#define FORWARD_SLASH_INDEX         2
+#define ZERO                        0
 
 #define PAN_ARRAY_MAX_SIZE			20
 #define PAN_MAX_SIZE				19
 #define PAN_MIN_SIZE				16
+
+
 
 /**************************************************************************************************************************
  *                                              User Defined Data Type

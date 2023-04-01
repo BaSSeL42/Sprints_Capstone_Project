@@ -44,24 +44,29 @@ EN_cardError_t getCardHolderName(ST_cardData_t* cardData)
 
 EN_cardError_t getCardExpiryDate(ST_cardData_t* cardData) {
 
-	char str[MAX_SIZE] = "", temp[MAX_SIZE] = "";
-	printf("ENTER EXPIRE DATE IN THIS FORMAT MM/YY : ");
-	fgets(str, MAX_SIZE, stdin);
-	if (strlen(str) != MAX_EXPIRE || str[2] != '/')return WRONG_EXP_DATE;
-	strcpy(temp, str);
-	const char s[2] = "/";
+	char Expiry_String[MAX_SIZE] = "", temp[MAX_SIZE] = ""; // initilize two strings 
+	printf("ENTER EXPIRY DATE IN THIS FORMAT MM/YY : ");
+	fgets(Expiry_String, MAX_SIZE, stdin);// store expiry date in Expiry_String
+	// check if input size is more or less and check on forward slash place
+	if (strlen(Expiry_String) != MAX_EXPIRY || Expiry_String[FORWARD_SLASH_INDEX] != '/')return WRONG_EXP_DATE;
+	strcpy(temp, Expiry_String);// if string in the right format store it in temp string
+
+	const char s[FORWARD_SLASH_INDEX] = "/"; // create constant for FORWARD_SLASH 
 	char* token;
 
-	token = strtok(str, s);
-	int i = 0;
+	token = strtok(Expiry_String, s); // cut string into substrings with FORWARD_SLASH delimeter 
+	uint8_t localIterator = ZERO; // initilze local counter with zero
+	// while there is more tokens
 	while (token != NULL) {
-		if (i == 0 && (atoi(token) > MAX_MONTH || atoi(token) < MIN_MONTH))return WRONG_EXP_DATE;
-		token = strtok(NULL, s);
-		i++;
+		// check on first token (Months)
+		if (localIterator == ZERO && (atoi(token) > MAX_MONTH || atoi(token) < MIN_MONTH))return WRONG_EXP_DATE;
+		token = strtok(NULL, s); // parse (years)
+		localIterator++;
 	}
-
-	for (i = 0; i < 6; i++)cardData->cardExpirationDate[i] = temp[i];
+	// if everything is okay take the temp string and store it in cardExpirationDate member 
+	for (localIterator = ZERO; localIterator < MAX_EXPIRY; localIterator++)cardData->cardExpirationDate[localIterator] = temp[localIterator];
 	return CARD_OK;
+
 
 }
 
@@ -227,9 +232,33 @@ void getCardExpiryDateTest(void) {
 	EN_cardError_t returnedval;
 	returnedval = getCardExpiryDate(&x);
 	printf("Tester Name : Sharpel Malak\n");
-	printf("Testcase 5  : user enters wrong format \n");
-	printf("Input data  :  15215\n");
+	printf("Testcase 1  : check if input is null \n");
+	printf("Input data  : \n");
 	printf("Expected result : 2\n");
+	printf("Actual result : %d\n", returnedval);
+	returnedval = getCardExpiryDate(&x);
+	printf("Tester Name : Sharpel Malak\n");
+	printf("Testcase 2  : user enters less than 5 characters \n");
+	printf("Input data  :  11/2\n");
+	printf("Expected result : 2\n");
+	printf("Actual result : %d\n", returnedval);
+	returnedval = getCardExpiryDate(&x);
+	printf("Tester Name : Sharpel Malak\n");
+	printf("Testcase 3  : user enters more than 5 characters \n");
+	printf("Input data  :  152/55\n");
+	printf("Expected result : 2\n");
+	printf("Actual result : %d\n", returnedval);
+	returnedval = getCardExpiryDate(&x);
+	printf("Tester Name : Sharpel Malak\n");
+	printf("Testcase 4  : user enters wrong format and invalid month \n");
+	printf("Input data  :  15/15\n");
+	printf("Expected result : 2\n");
+	printf("Actual result : %d\n", returnedval);
+	returnedval = getCardExpiryDate(&x);
+	printf("Tester Name : Sharpel Malak\n");
+	printf("Testcase 5  : user right format \n");
+	printf("Input data  :  11/25\n");
+	printf("Expected result : 0\n");
 	printf("Actual result : %d\n", returnedval);
 
 }

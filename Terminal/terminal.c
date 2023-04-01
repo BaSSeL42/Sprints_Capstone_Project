@@ -123,11 +123,11 @@ EN_terminalError_t isCardExpired( ST_cardData_t *cardData, ST_terminalData_t *te
 
 
 EN_terminalError_t getTransactionAmount(ST_terminalData_t* termData) {
-    float amount;
+    float amount; // create local float amount
     printf("ENTER THE TRANSACTION AMOUNT : ");
     scanf("%f", &amount);
-    if (amount <= 0)return INVALID_AMOUNT;
-    termData->transAmount = amount;
+    if (amount <= 0)return INVALID_AMOUNT; // if value less than or equal zero --> wrong
+    termData->transAmount = amount; // store amount in transAmount member
     return TERMINAL_OK;
 
 
@@ -373,14 +373,28 @@ void setMaxAmountTest (void)
 
 
 void getTransactionAmountTest(void) {
-    ST_terminalData_t x;
+    ST_terminalData_t Terminal_Data;
     EN_terminalError_t returnedval;
-    returnedval = getTransactionAmount(&x);
+
+    returnedval = getTransactionAmount(&Terminal_Data);
     printf("Tester Name : Sharpel Malak\n");
-    printf("Testcase 4  : user enters positive and right amount \n");
-    printf("Input data  :  5000\n");
+    printf("Testcase 1  : user enters Null \n");
+    printf("Input data  : \n");
+    printf("Expected result : 4\n");
+    printf("Actual result : %d\n", returnedval);
+    returnedval = getTransactionAmount(&Terminal_Data);
+    printf("Tester Name : Sharpel Malak\n");
+    printf("Testcase 2  : user enters zero or less amount \n");
+    printf("Input data  :  -100\n");
+    printf("Expected result : 4\n");
+    printf("Actual result : %d\n", returnedval);
+    returnedval = getTransactionAmount(&Terminal_Data);
+    printf("Tester Name : Sharpel Malak\n");
+    printf("Testcase 3  : user enters postive number \n");
+    printf("Input data  :  200\n");
     printf("Expected result : 0\n");
     printf("Actual result : %d\n", returnedval);
+
 }
 
 
