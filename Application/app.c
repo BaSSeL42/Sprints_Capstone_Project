@@ -12,6 +12,8 @@ extern ST_accountsDB_t accountsDB[ACCOUNTS_DB_MAX_SIZE];
 
 void appStart(void)
 {
+
+
 	ST_cardData_t client_data;
     ST_terminalData_t client_transactions;
 
@@ -138,6 +140,23 @@ void appStart(void)
         }
         break;
     }
- 
+
+    /*
+    getCardHolderNameTest();
+    getCardExpiryDateTest();
+    getCardPanTest();
+    getTransactionDateTest();
+    isCardExpiredTest();
+    setMaxAmountTest();
+    isValidCardPANTest();
+    isBelowMaxAccountTest();
+    getTransactionAmountTest();
+    recieveTransactionDataTest();
+    isBlockedAccountTest();
+    isAmountAvailableTest();
+    isValidAccountTest();
+    saveTransactionTest()
+    */
+
 
 }
